@@ -1,0 +1,9 @@
+fn theme theme:str
+    source ~/.config/ion/plugins/themes/$theme/theme.ion
+end
+
+fn load plugins:[str]
+    for plugin in @plugins
+        source ~/.config/ion/plugins/$plugin/init.ion
+    end
+end
