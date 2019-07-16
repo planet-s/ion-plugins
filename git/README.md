@@ -33,12 +33,12 @@ load [... git]
 | gbsr                 | git bisect reset                                                                                                              |
 | gbss                 | git bisect start                                                                                                              |
 | gc                   | git commit -v                                                                                                                 |
-| gc!                  | git commit -v --amend                                                                                                         |
-| gcn!                 | git commit -v --no-edit --amend                                                                                               |
+| gc_                  | git commit -v --amend                                                                                                         |
+| gcn_                 | git commit -v --no-edit --amend                                                                                               |
 | gca                  | git commit -v -a                                                                                                              |
-| gca!                 | git commit -v -a --amend                                                                                                      |
-| gcan!                | git commit -v -a --no-edit --amend                                                                                            |
-| gcans!               | git commit -v -a -s --no-edit --amend                                                                                         |
+| gca_                 | git commit -v -a --amend                                                                                                      |
+| gcan_                | git commit -v -a --no-edit --amend                                                                                            |
+| gcans_               | git commit -v -a -s --no-edit --amend                                                                                         |
 | gcam                 | git commit -a -m                                                                                                              |
 | gcsm                 | git commit -s -m                                                                                                              |
 | gcb                  | git checkout -b                                                                                                               |
@@ -110,7 +110,7 @@ load [... git]
 | gp                   | git push                                                                                                                      |
 | gpd                  | git push --dry-run                                                                                                            |
 | gpf                  | git push --force-with-lease                                                                                                   |
-| gpf!                 | git push --force                                                                                                              |
+| gpf_                 | git push --force                                                                                                              |
 | gpoat                | git push origin --all && git push origin --tags                                                                               |
 | gpu                  | git push upstream                                                                                                             |
 | gpv                  | git push -v                                                                                                                   |

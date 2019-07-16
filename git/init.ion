@@ -13,7 +13,7 @@ end
 
 # Warn if the current branch is a WIP
 fn work_in_progress
-  if $(git log -n 1 2>/dev/null | grep -q -c "\-\-wip\-\-")
+  if $(git log -n 1 &> /dev/null | grep -q -c "\-\-wip\-\-")
     echo "WIP!!"
   end
 end
@@ -47,12 +47,12 @@ alias gbsr = 'git bisect reset'
 alias gbss = 'git bisect start'
 
 alias gc = 'git commit -v'
-alias gc! = 'git commit -v --amend'
-alias gcn! = 'git commit -v --no-edit --amend'
+alias gc_ = 'git commit -v --amend'
+alias gcn_ = 'git commit -v --no-edit --amend'
 alias gca = 'git commit -v -a'
-alias gca! = 'git commit -v -a --amend'
-alias gcan! = 'git commit -v -a --no-edit --amend'
-alias gcans! = 'git commit -v -a -s --no-edit --amend'
+alias gca_ = 'git commit -v -a --amend'
+alias gcan_ = 'git commit -v -a --no-edit --amend'
+alias gcans_ = 'git commit -v -a -s --no-edit --amend'
 alias gcam = 'git commit -a -m'
 alias gcsm = 'git commit -s -m'
 alias gcb = 'git checkout -b'
@@ -78,9 +78,6 @@ alias gds = 'git diff --staged'
 alias gdt = 'git diff-tree --no-commit-id --name-only -r'
 alias gdw = 'git diff --word-diff'
 
-function gdv() { git diff -w "$@" | view - }
-compdef _git gdv=git-diff
-
 alias gf = 'git fetch'
 alias gfa = 'git fetch --all --prune'
 alias gfo = 'git fetch origin'
@@ -89,52 +86,6 @@ alias gfg = 'git ls-files | grep'
 
 alias gg = 'git gui citool'
 alias gga = 'git gui citool --amend'
-
-function ggf() {
-  [[ "$#" != 1 ]] && local b="$(git_current_branch)"
-  git push --force origin "${b:=$1}"
-}
-compdef _git ggf=git-checkout
-function ggfl() {
-  [[ "$#" != 1 ]] && local b="$(git_current_branch)"
-  git push --force-with-lease origin "${b:=$1}"
-}
-compdef _git ggfl=git-checkout
-
-function ggl() {
-  if [[ "$#" != 0 ]] && [[ "$#" != 1 ]]; then
-    git pull origin "${*}"
-  else
-    [[ "$#" == 0 ]] && local b="$(git_current_branch)"
-    git pull origin "${b:=$1}"
-  fi
-}
-compdef _git ggl=git-checkout
-
-function ggp() {
-  if [[ "$#" != 0 ]] && [[ "$#" != 1 ]]; then
-    git push origin "${*}"
-  else
-    [[ "$#" == 0 ]] && local b="$(git_current_branch)"
-    git push origin "${b:=$1}"
-  fi
-}
-compdef _git ggp=git-checkout
-
-function ggpnp() {
-  if [[ "$#" == 0 ]]; then
-    ggl && ggp
-  else
-    ggl "${*}" && ggp "${*}"
-  fi
-}
-compdef _git ggpnp=git-checkout
-
-function ggu() {
-  [[ "$#" != 1 ]] && local b="$(git_current_branch)"
-  git pull --rebase origin "${b:=$1}"
-}
-compdef _git ggu=git-checkout
 
 alias ggpur = 'ggu'
 alias ggpull = 'git pull origin "$(git_current_branch)"'
@@ -178,7 +129,7 @@ alias gma = 'git merge --abort'
 alias gp = 'git push'
 alias gpd = 'git push --dry-run'
 alias gpf = 'git push --force-with-lease'
-alias gpf! = 'git push --force'
+alias gpf_ = 'git push --force'
 alias gpoat = 'git push origin --all && git push origin --tags'
 alias gpu = 'git push upstream'
 alias gpv = 'git push -v'
@@ -216,7 +167,7 @@ alias gss = 'git status -s'
 alias gst = 'git status'
 
 # use the default stash push on git 2.13 and newer
-if test 2.13 -ge "$(git --version 2>/dev/null | awk '{print $3}')"
+if test 213 -lt $(git --version &> /dev/null | awk '{print $3 * 100}')
   alias gsta = 'git stash push'
 else
   alias gsta = 'git stash save'
