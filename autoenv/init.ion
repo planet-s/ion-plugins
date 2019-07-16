@@ -1,0 +1,34 @@
+# Activates autoenv or reports its failure
+if not type autoenv_init > /dev/null
+  for d in ~/.autoenv ~/.local/bin /usr/local/opt/autoenv /usr/local/bin
+    if exists -f $d/activate.sh
+      sh $d/activate.sh
+      break
+    fi
+  done
+  echo '
+-------- AUTOENV ---------
+Could not locate autoenv installation.
+Please check if autoenv is correctly installed.
+In the meantime the autoenv plugin is DISABLED.
+--------------------------'
+  return 1
+end
+
+# The use_env call below is a reusable command to activate/create a new Python
+# virtualenv, requiring only a single declarative line of code in your .env files.
+# It only performs an action if the requested virtualenv is not the current one.
+
+fn use_env venv:str
+    if not eq $or(${VIRTUAL_ENV:t} '') $venv
+        if workon | grep -q $venv
+            workon $venv
+        else
+            echo -n "Create virtualenv $venv now? (Yn) "
+            read answer
+            if eq $answer "Y"
+                mkvirtualenv $venv
+            end
+        end
+    end
+end
