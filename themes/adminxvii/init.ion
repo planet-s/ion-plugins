@@ -1,0 +1,18 @@
+fn PROMPT
+  let prev = $?
+  if git rev-parse --is-inside-work-tree &> /dev/null
+    if exists $(git status -s)
+        echo --no-newline "${c::red}*"
+    end
+    echo --no-newline "${c::green}[$(git symbolic-ref --quiet --short HEAD ^> /dev/null || git rev-parse --short HEAD ^> /dev/null)]"
+  end
+  echo --no-newline "${c::cyan}[$SWD]${c::reset}${c::bold}"
+  if not eq $prev 0
+    echo --no-newline ${c::red}
+  end
+  echo --no-newline "\$${c::reset} "
+end
+
+fn COMMAND_NOT_FOUND cmd
+    /usr/lib/command-not-found -- $cmd
+end

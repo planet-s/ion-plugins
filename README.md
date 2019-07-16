@@ -12,6 +12,15 @@ git clone https://gitlab.redox-os.org/redox-os/ion-plugins ~/.config/ion/plugins
 ```
 
 ### 2. Use it in your config (~/.config/ion/initrc)
+#### For now
+```
+source ~/.config/ion/plugins/themes/<theme>/init.ion
+for plugin in git yarn ...
+    source ~/.config/ion/plugins/$plugin/init.ion
+end
+```
+
+#### Planned API
 ```
 ... rest of initrc
 source ~/.config/ion/plugins/init.ion
