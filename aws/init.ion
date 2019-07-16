@@ -1,0 +1,44 @@
+fn agp
+  echo ${env::AWS_PROFILE}
+end
+
+# AWS profile selection
+fn asp profile:str
+  if test -z $profile
+    export AWS_DEFAULT_PROFILE AWS_PROFILE AWS_EB_PROFILE = '' '' ''
+    echo AWS profile cleared.
+    return
+  end
+
+  let available_profiles:hmap[str] = $(aws_profiles)
+  if test -z @available_profiles[$profile]
+    echo "${c::red}Profile '$profile' not found in '$or($AWS_CONFIG_FILE $HOME/.aws/config)'"
+    echo "Available profiles: $or(@keys(available_profiles) 'no profiles found')${c::reset}"
+    return 1
+  end
+
+  export AWS_DEFAULT_PROFILE = $profile
+  export AWS_PROFILE = $profile
+  export AWS_EB_PROFILE = $profile
+end
+
+fn aws_change_access_key profile:str
+  echo Insert the credentials when asked.
+  if not asp $profile
+    return 1
+  end
+  aws iam create-access-key
+  aws configure --profile $version
+
+  echo You can now safely delete the old access key running \`aws iam delete-access-key --access-key-id ID\`
+  echo Your current keys are:
+  aws iam list-access-keys
+end
+
+fn aws_profiles
+  let profile = $or($AWS_CONFIG_FILE "$HOME/.aws/config")
+  if not test -r $profile
+    return 1
+  end
+  grep '\[profile' $profile | sed -e 's/.*profile \([a-zA-Z0-9_\.-]*\).*/\1/'
+end
