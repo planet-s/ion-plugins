@@ -1,19 +1,20 @@
+# Get the filename to store/lookup the environment from
+let _ssh_env_cache = "$HOME/.ssh/environment-$or($SHORT_HOST '')"
+
 fn _start_agent
 	# start ssh-agent and setup environment
 	echo 'Starting ssh-agent...'
-	let out = $(ssh-agent -s $or($ssh_agent_lifetime '') $or($ssh_agent_lifetime ''))
+    let ssh_agent_lifetime ?= ''
+	let out = $(ssh-agent -s $ssh_agent_lifetime $ssh_agent_lifetime)
     let out = $regex_replace($out '^echo' '#echo')
     let out = $regex_replace($out '^([A-Z_]*)=(\.*)' 'let \1 = \2')
     echo $out > $_ssh_env_cache
 	chmod 600 $_ssh_env_cache
 	source $_ssh_env_cache > /dev/null
-}
-
-# Get the filename to store/lookup the environment from
-let _ssh_env_cache = "$HOME/.ssh/environment-$SHORT_HOST"
+end
 
 # test if agent-forwarding is enabled
-if bool $ssh_agent_agent_forwarding && test -n $SSH_AUTH_SOCK
+if exists -s ssh_agent_agent_forwarding && bool $ssh_agent_agent_forwarding && exists -s env::SSH_AUTH_SOCK
 	# Add a nifty symlink for screen/tmux if agent forwarding
 	if not test -L $SSH_AUTH_SOCK
         ln -sf $SSH_AUTH_SOCK /tmp/ssh-agent-$USER-screen
@@ -21,10 +22,11 @@ if bool $ssh_agent_agent_forwarding && test -n $SSH_AUTH_SOCK
 else if test -f $_ssh_env_cache
 	# Source SSH settings, if applicable
 	source $_ssh_env_cache > /dev/null
+    let FILTER = ""
 	if eq $USER "root"
-		FILTER="ax"
+		let FILTER = "ax"
 	else
-		FILTER="x"
+		let FILTER = "x"
 	end
 	if not ps $FILTER | grep ssh-agent | grep -q $SSH_AGENT_PID
 		_start_agent
@@ -55,12 +57,12 @@ end
 
 # get list of loaded identities' signatures and filenames
 for line in @split($(ssh-add -l) '\n')
-    let loaded_sigs += @split($line ' ')[1]
-    let loaded_ids += @split($line ' ')[2]
+    let loaded_sigs ::= @split($line ' ')[1]
+    let loaded_ids ::= @split($line ' ')[2]
 end
 
 # add identities if not already loaded
-for id, i in $identities
+for id in @identities
     # check for filename match, otherwise try for signature match
     if contains $id @loaded_ids
         let sig = $(ssh-keygen -lf "$HOME/.ssh/$id" | awk '{print $2}')
@@ -73,3 +75,4 @@ end
 if not eq 0 $len(@not_loaded)
     ssh-add @not_loaded
 end
+echo done
