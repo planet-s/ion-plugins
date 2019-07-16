@@ -1,0 +1,117 @@
+let APT = $(if which apt &> /dev/null; echo apt; else; echo apt-get; end)
+
+alias acs='apt-cache search'
+
+alias afs='apt-file search --regexp'
+
+# These are apt/apt-get only
+alias ags="$APT source"
+
+alias acp='apt-cache policy'
+
+#List all installed packages
+alias agli='apt list --installed'
+
+# superuser operations ######################################################
+
+# List available updates only
+alias aglu='sudo apt-get -u upgrade --assume-no'
+
+alias afu='sudo apt-file update'
+
+alias ppap='sudo ppa-purge'
+
+alias age="sudo $APT"
+alias aga="sudo $APT autoclean"
+alias agb="sudo $APT build-dep"
+alias agc="sudo $APT clean"
+alias agd="sudo $APT dselect-upgrade"
+alias agi="sudo $APT install"
+alias agp="sudo $APT purge"
+alias agr="sudo $APT remove"
+alias agu="sudo $APT update"
+alias agud="sudo $APT update && sudo $APT dist-upgrade"
+alias agug="sudo $APT upgrade"
+alias aguu="sudo $APT update && sudo $APT upgrade"
+alias agar="sudo $APT autoremove"
+
+
+# Remove ALL kernel images and headers EXCEPT the one in use
+alias kclean='sudo aptitude remove -P ?and(~i~nlinux-(ima|hea) ?not(~n`uname -r`))'
+
+# Misc. #####################################################################
+# print all installed packages
+alias allpkgs='dpkg --get-selections | grep -v deinstall'
+
+# Create a basic .deb package
+alias mydeb='time dpkg-buildpackage -rfakeroot -us -uc'
+
+# apt-add-repository with automatic install/upgrade of the desired package
+# Usage: aar ppa:xxxxxx/xxxxxx [packagename]
+# If packagename is not given as 2nd argument the function will ask for it and guess the default by taking
+# the part after the / from the ppa name which is sometimes the right name for the package you want to install
+fn aar ppa:str package:str
+	if not test -n $package
+		echo "Type in the package name to install/upgrade with this ppa [$ppa]: "
+        read package
+	end
+
+	if test -z $package
+		let package = $ppa
+	end
+
+	sudo apt-add-repository $ppa && sudo $APT update
+	sudo $APT install $package
+end
+
+# Prints apt history
+# Usage:
+#   apt-history install
+#   apt-history upgrade
+#   apt-history remove
+#   apt-history rollback
+#   apt-history list
+# Based On: https://linuxcommando.blogspot.com/2008/08/how-to-show-apt-log-history.html
+fn apt_history arg:str
+  match $arg
+    case install
+      zgrep --no-filename 'install ' $(ls -rt /var/log/dpkg*)
+    case [ upgrade remove ]
+      zgrep --no-filename $arg $(ls -rt /var/log/dpkg*)
+    case rollback
+      zgrep --no-filename upgrade $(ls -rt /var/log/dpkg*) | \
+        grep "$2" -A10000000 | \
+        grep "$3" -B10000000 | \
+        awk '{print $4"="$5}'
+    case list
+      zgrep --no-filename '' $(ls -rt /var/log/dpkg*)
+    case _
+      echo "Parameters:"
+      echo " install - Lists all packages that have been installed."
+      echo " upgrade - Lists all packages that have been upgraded."
+      echo " remove - Lists all packages that have been removed."
+      echo " rollback - Lists rollback information."
+      echo " list - Lists all contains of dpkg logs."
+  end
+end
+
+# Kernel-package building shortcut
+fn kerndeb
+  # temporarily unset MAKEFLAGS ( '-j3' will fail )
+  let MAKEFLAGS = $( print - $or($MAKEFLAGS '') | perl -pe 's/-j\s*[\d]+//g' )
+  print "\$MAKEFLAGS set to '$MAKEFLAGS'"
+  let appendage = '-custom' # this shows up in $(uname -r)
+  let revision = $(date "+%Y%m%d") # this shows up in the .deb file name
+  make-kpkg clean
+
+  # time fakeroot make-kpkg --append-to-version $appendage --revision $revision #\
+    # kernel_image kernel_headers
+end
+
+# List packages by size
+fn apt_list_packages
+  dpkg-query -W --showformat='${Installed-Size} ${Package} ${Status}\n' | \
+  grep -v deinstall | \
+  sort -n | \
+  awk '{print $1" "$2}'
+end
