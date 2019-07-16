@@ -75,4 +75,4 @@ end
 if not eq 0 $len(@not_loaded)
     ssh-add @not_loaded
 end
-echo done
+drop ssh_agent_agent_forwarding ssh_agent_lifetime _ssh_env_cache
