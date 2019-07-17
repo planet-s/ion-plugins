@@ -379,9 +379,9 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | python                   | Not happening                  |
 |--------------------------+--------------------------------|
-| rails                    | Planned                        |
+| rails                    | Merged with ruby               |
 |--------------------------+--------------------------------|
-| rake                     | Planned                        |
+| rake                     | Merged with ruby               |
 |--------------------------+--------------------------------|
 | rake-fast                | Not happening                  |
 |--------------------------+--------------------------------|
