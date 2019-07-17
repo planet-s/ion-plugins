@@ -2,7 +2,7 @@
 
 This repository contains many useful aliases and functions definitions to improve the quality of your Ion setup.
 
-*Disclaimer*: Most of the plugins are a one-on-one equivalent with the great oh-my-zsh plugins to make users' transitions as seamless as possible.
+**Disclaimer**: Most of the plugins are a one-on-one equivalent with the great oh-my-zsh plugins to make users' transitions as seamless as possible. See the [equivalence sheet](./plugins.md) to see if your plugins are all converted.
 
 ## Installation
 
@@ -15,9 +15,8 @@ git clone https://gitlab.redox-os.org/redox-os/ion-plugins ~/.config/ion/plugins
 #### For now
 ```
 source ~/.config/ion/plugins/themes/<theme>/init.ion
-for plugin in git yarn ...
-    source ~/.config/ion/plugins/$plugin/init.ion
-end
+source ~/.config/ion/plugins/<plugin>/init.ion
+...
 ```
 
 #### Planned API
