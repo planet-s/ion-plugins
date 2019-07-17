@@ -1,0 +1,50 @@
+# Mercurial
+alias hga='hg add'
+alias hgc='hg commit'
+alias hgb='hg branch'
+alias hgba='hg branches'
+alias hgbk='hg bookmarks'
+alias hgco='hg checkout'
+alias hgd='hg diff'
+alias hged='hg diffmerge'
+# pull and update
+alias hgi='hg incoming'
+alias hgl='hg pull -u'
+alias hglr='hg pull --rebase'
+alias hgo='hg outgoing'
+alias hgp='hg push'
+alias hgs='hg status'
+alias hgsl='hg log --limit 20 --template "{node|short} | {date|isodatesec} | {author|user}: {desc|strip|firstline}\n" '
+alias hgca='hg commit --amend'
+# list unresolved files (since hg does not list unmerged files in the status command)
+alias hgun='hg resolve --list'
+
+fn in_hg
+  test -d .hg || $(hg summary &> /dev/null)
+end
+
+fn hg_get_branch_name
+  if in_hg
+    echo $(hg branch)
+  end
+end
+
+fn hg_dirty_choose if_true:str if_false:str
+  if in_hg
+    if hg status ^> /dev/null | command grep -Eq '^\s*[ACDIM!?L]'
+      # Grep exits with 0 when "One or more lines were selected", return "dirty".
+      echo $if_true
+    else
+      # Otherwise, no lines were found, or an error occurred. Return clean.
+      echo $if_false
+    end
+  end
+end
+
+fn hgic incomings:[str]
+    hg incoming @incomings | grep "changeset" | wc -l
+end
+
+fn hgoc outgoings:[str]
+    hg outgoing @outgoings | grep "changeset" | wc -l
+end

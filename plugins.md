@@ -295,9 +295,9 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | marked2                  | Not happening                  |
 |--------------------------+--------------------------------|
-| mercurial                | Planned                        |
+| mercurial                | Done                           |
 |--------------------------+--------------------------------|
-| meteor                   | Planned                        |
+| meteor                   | Done                           |
 |--------------------------+--------------------------------|
 | minikube                 | Not happening                  |
 |--------------------------+--------------------------------|
