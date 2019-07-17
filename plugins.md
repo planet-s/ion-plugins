@@ -397,7 +397,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | redis-cli                | Not happening                  |
 |--------------------------+--------------------------------|
-| repo                     | Planned                        |
+| repo                     | Done                           |
 |--------------------------+--------------------------------|
 | ripgrep                  | Not happening                  |
 |--------------------------+--------------------------------|
