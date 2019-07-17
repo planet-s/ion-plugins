@@ -465,7 +465,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | systemadmin              | Planned                        |
 |--------------------------+--------------------------------|
-| systemd                  | Planned                        |
+| systemd                  | Done                           |
 |--------------------------+--------------------------------|
 | taskwarrior              | Not happening                  |
 |--------------------------+--------------------------------|
