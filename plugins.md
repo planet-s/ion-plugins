@@ -461,7 +461,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | symfony                  | Not happening                  |
 |--------------------------+--------------------------------|
-| symfony2                 | Planned                        |
+| symfony2                 | Done                           |
 |--------------------------+--------------------------------|
 | systemadmin              | Tested                         |
 |--------------------------+--------------------------------|
