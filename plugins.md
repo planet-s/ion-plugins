@@ -489,7 +489,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | timer                    | Not happening                  |
 |--------------------------+--------------------------------|
-| tmux                     | Planned                        |
+| tmux                     | Done                           |
 |--------------------------+--------------------------------|
 | tmux-cssh                | Not happening                  |
 |--------------------------+--------------------------------|

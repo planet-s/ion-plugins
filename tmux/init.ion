@@ -1,0 +1,93 @@
+if not which tmux &> /dev/null
+  echo "zsh tmux plugin: tmux not found. Please install tmux before using this plugin."
+  return 1
+end
+
+# ALIASES
+
+alias ta='tmux attach -t'
+alias tad='tmux attach -d -t'
+alias ts='tmux new-session -s'
+alias tl='tmux list-sessions'
+alias tksv='tmux kill-server'
+alias tkss='tmux kill-session -t'
+
+# CONFIGURATION VARIABLES
+# Automatically start tmux
+let TMUX_AUTOSTART ?= 0
+# Only autostart once. If set to false, tmux will attempt to
+# autostart every time your zsh configs are reloaded.
+let TMUX_AUTOSTART_ONCE ?= 1
+# Automatically connect to a previous session if it exists
+let TMUX_AUTOCONNECT ?= 1
+# Automatically close the terminal when tmux exits
+let TMUX_AUTOQUIT ?= $TMUX_AUTOSTART
+# Set term to screen or screen-256color based on current terminal support
+let TMUX_FIXTERM ?= 1
+# Set '-CC' option for iTerm2 tmux integration
+let TMUX_ITERM2 ?= 0
+# The TERM to use for non-256 color terminals.
+# Tmux states this should be screen, but you may need to change it on
+# systems without the proper terminfo
+let TMUX_FIXTERM_WITHOUT_256COLOR ?= screen
+# The TERM to use for 256 color terminals.
+# Tmux states this should be screen-256color, but you may need to change it on
+# systems without the proper terminfo
+let TMUX_FIXTERM_WITH_256COLOR ?= screen-256color
+
+# Determine if the terminal supports 256 colors
+# Currently not supported with Ion
+# if eq $terminfo['colors'] 256
+  export TMUX_TERM = $TMUX_FIXTERM_WITH_256COLOR
+# else
+#  export TMUX_TERM = $TMUX_FIXTERM_WITHOUT_256COLOR
+# end
+
+# Set the correct local config file to use.
+if not bool $TMUX_ITERM2 && test -e "$HOME/.tmux.conf"
+  export _TMUX_FIXED_CONFIG = "$(dirname $(readlink -f @args[0]))/tmux.extra.conf"
+else
+  export _TMUX_FIXED_CONFIG = "$(dirname $(readlink -f @args[0]))/tmux.only.conf"
+end
+
+# Wrapper function for tmux.
+fn _tmux_plugin_run args:[str]
+  if not eq $len(@args) 0
+    command tmux @args
+    return $?
+  end
+
+  let tmux_cmd = [ command tmux ]
+  if bool $TMUX_ITERM2
+    tmux_cmd ::+= -CC
+  end
+
+  # Try to connect to an existing session.
+  if bool $TMUX_AUTOCONNECT
+    $tmux_cmd attach
+  end
+
+  # If failed, just run tmux, fixing the TERM variable if requested.
+  if not eq $? -ne 0
+    if bool $TMUX_FIXTERM
+        tmux_cmd ::= [ -f $_TMUX_FIXED_CONFIG ]
+    end
+    $tmux_cmd new-session
+  end
+
+  if bool $TMUX_AUTOQUIT
+    exit
+  end
+end
+
+# Alias tmux to our wrapper function.
+alias tmux=_tmux_plugin_run
+
+# Autostart if not already in tmux and enabled.
+if not test -z ${env::TMUX} && bool $TMUX_AUTOSTART && test -z ${env::INSIDE_EMACS} && test -z ${env::EMACS} && test -z ${env::VIM}
+  # Actually don't autostart if we already did and multiple autostarts are disabled.
+  if not bool $TMUX_AUTOSTART_ONCE || not bool $TMUX_AUTOSTARTED
+    export TMUX_AUTOSTARTED = 1
+    _tmux_plugin_run
+  end
+end
