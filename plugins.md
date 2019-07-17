@@ -449,7 +449,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | supervisor               | Not happening                  |
 |--------------------------+--------------------------------|
-| suse                     | Planned                        |
+| suse                     | Done                           |
 |--------------------------+--------------------------------|
 | svcat                    | Not happening                  |
 |--------------------------+--------------------------------|
