@@ -4,8 +4,8 @@ if not type autoenv_init > /dev/null
     if exists -f $d/activate.sh
       sh $d/activate.sh
       break
-    fi
-  done
+    end
+  end
   echo '
 -------- AUTOENV ---------
 Could not locate autoenv installation.

@@ -523,7 +523,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | vscode                   | Merge with other editors       |
 |--------------------------+--------------------------------|
-| vundle                   | Planned                        |
+| vundle                   | Done                           |
 |--------------------------+--------------------------------|
 | wakeonlan                | Not happening                  |
 |--------------------------+--------------------------------|
