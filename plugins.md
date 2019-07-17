@@ -405,7 +405,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | rsync                    | Planned                        |
 |--------------------------+--------------------------------|
-| ruby                     | Planned (merge?)               |
+| ruby                     | Done (merge?)                  |
 |--------------------------+--------------------------------|
 | rust                     | Not happening                  |
 |--------------------------+--------------------------------|
