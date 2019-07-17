@@ -545,7 +545,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | z                        | Not happening                  |
 |--------------------------+--------------------------------|
-| zeus                     | Planned                        |
+| zeus                     | Done                           |
 |--------------------------+--------------------------------|
 | zsh-navigation-tools     | Not happening                  |
 |--------------------------+--------------------------------|
