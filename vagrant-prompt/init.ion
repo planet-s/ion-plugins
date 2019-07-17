@@ -1,0 +1,29 @@
+# vim:ft=zsh ts=2 sw=2 sts=2
+#
+# To display Vagrant infos on your prompt add the vagrant_prompt_info to the
+# $prompt variable in your custom PROMPT function. Example:
+#
+# let prompt ::= vagrant_prompt_info [ \
+#     running = "${c::green}●${c::reset}" \
+#     poweroff = "${c::red}●${c::reset}" \
+#     suspended = "${c::yellow}●${c::reset}" \
+#     not_created ="${c::reset}○" \
+# ]
+#
+
+fn vagrant_prompt_info theme:hmap[str]
+  if test -d .vagrant && test -f Vagrantfile
+    for vm_details in @(vagrant status ^> /dev/null | grep -P "\w+\s+[\w\s]+\s\(\w+\)")
+      match $(echo $vm_details | grep -o -E "saved|poweroff|not created|running")
+        case "running"
+            printf '%s' @theme['running']
+        case "saved"
+            printf '%s' @theme['suspended']
+        case "not created"
+            printf '%s' @theme['not_created']
+        case "poweroff"
+            printf '%s' @theme['poweroff']
+      end
+    end
+  end
+end

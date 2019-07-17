@@ -509,7 +509,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | vagrant                  | Not happening                  |
 |--------------------------+--------------------------------|
-| vagrant-prompt           | Planned                        |
+| vagrant-prompt           | Done                           |
 |--------------------------+--------------------------------|
 | vault                    | Not happening                  |
 |--------------------------+--------------------------------|
