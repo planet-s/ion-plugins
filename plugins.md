@@ -347,7 +347,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | per-directory-history    | Not sure                       |
 |--------------------------+--------------------------------|
-| perl                     | Planned                        |
+| perl                     | Done                           |
 |--------------------------+--------------------------------|
 | perms                    | Planned                        |
 |--------------------------+--------------------------------|
