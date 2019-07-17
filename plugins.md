@@ -497,7 +497,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | torrent                  | Not sure                       |
 |--------------------------+--------------------------------|
-| transfer                 | Planned                        |
+| transfer                 | Done                           |
 |--------------------------+--------------------------------|
 | tugboat                  | Not happening                  |
 |--------------------------+--------------------------------|
