@@ -531,7 +531,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | web-search               | Planned                        |
 |--------------------------+--------------------------------|
-| wp-cli                   | Planned                        |
+| wp-cli                   | Done                           |
 |--------------------------+--------------------------------|
 | xcode                    | Merge with other editors       |
 |--------------------------+--------------------------------|
