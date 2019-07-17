@@ -1,13 +1,17 @@
 # Get the filename to store/lookup the environment from
-let _ssh_env_cache = "$HOME/.ssh/environment-$or($SHORT_HOST '')"
+let SHORT_HOST = @split($HOST '.')[0]
+let _ssh_env_cache = "$HOME/.ssh/environment-$SHORT_HOST"
 
 fn _start_agent
 	# start ssh-agent and setup environment
 	echo 'Starting ssh-agent...'
-    let ssh_agent_lifetime ?= ''
-	let out = $(ssh-agent -s $ssh_agent_lifetime $ssh_agent_lifetime)
-    let out = $regex_replace($out '^echo' '#echo')
-    let out = $regex_replace($out '^([A-Z_]*)=(\.*)' 'let \1 = \2')
+    let args = [-s]
+    if exists -s ssh_agent_lifetime
+      let args ::= [-t $ssh_agent_lifetime]
+    end
+    let out = $(ssh-agent @args)
+    let out = $regex_replace($out 'echo' '#echo')
+    let out = $regex_replace($out '([A-Z_]*)=(.*)' 'let $1 = $2')
     echo $out > $_ssh_env_cache
 	chmod 600 $_ssh_env_cache
 	source $_ssh_env_cache > /dev/null
@@ -50,7 +54,7 @@ if eq $len(@identities) 0
     for id in id_rsa id_dsa id_ecdsa id_ed25519 identity
         # check if file exists
         if test -f "$HOME/.ssh/$id"
-            let identities += $id
+            let identities ::= $id
         end
     end
 end
@@ -64,10 +68,10 @@ end
 # add identities if not already loaded
 for id in @identities
     # check for filename match, otherwise try for signature match
-    if contains $id @loaded_ids
+    if not contains $id @loaded_ids
         let sig = $(ssh-keygen -lf "$HOME/.ssh/$id" | awk '{print $2}')
-        if contains $sig @loaded_sigs
-            let not_loaded += "$HOME/.ssh/$id"
+        if not contains $sig @loaded_sigs
+            let not_loaded ::= "$HOME/.ssh/$id"
         end
     end
 end
