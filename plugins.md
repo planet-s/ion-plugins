@@ -391,7 +391,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | rbfu                     | Not sure                       |
 |--------------------------+--------------------------------|
-| react-native             | Planned                        |
+| react-native             | Done                           |
 |--------------------------+--------------------------------|
 | rebar                    | Not happening                  |
 |--------------------------+--------------------------------|
