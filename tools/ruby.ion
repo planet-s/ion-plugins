@@ -1,3 +1,5 @@
+# This plugin adds aliases for common commands used in dealing with [Ruby](https://www.ruby-lang.org/en/), [gem packages](https://rubygems.org/), [Ruby On Rails Framework](https://rubyonrails.org/) and [Rake](https://ruby.github.io/rake/) commands, as well as for logs.
+
 # TODO: Make this compatible with rvm.
 #       Run sudo gem on the system ruby, not the active ruby.
 alias sgem = 'sudo gem'

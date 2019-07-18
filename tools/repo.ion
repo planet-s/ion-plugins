@@ -1,3 +1,5 @@
+## Based upon the work of [Stibbons](https://github.com/Stibbons)
+
 # Aliases
 alias r = 'repo'
 alias rra = 'repo rebase --auto-stash'

@@ -1,3 +1,4 @@
+# This plugin adds a few aliases for frequently used [`react-native`](https://facebook.github.io/react-native/) commands.
 
 # React Native
 alias rn = 'react-native'

@@ -1,10 +1,6 @@
-# ------------------------------------------------------------------------------
-#          FILE:  sbt.plugin.zsh
-#   DESCRIPTION:  oh-my-zsh plugin file.
-#        AUTHOR:  Mirko Caserta (mirko.caserta@gmail.com)
-#       VERSION:  1.0.2
-# ------------------------------------------------------------------------------
- 
+# This plugin adds some aliases for common [sbt, the interactive build tool](https://scala-sbt.org/) commands.
+# Based upon the work of Mirko Caserta (mirko.caserta@gmail.com)
+
 # aliases - mnemonic: prefix is 'sb'
 alias sbc = 'sbt compile'
 alias sbcc = 'sbt clean compile'
