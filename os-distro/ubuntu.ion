@@ -1,3 +1,16 @@
+# This plugin adds completions and aliases for APT.
+#
+# Commands that use `$APT` will use `apt` if installed or defer to `apt-get` otherwise.
+## Based upon the work of:
+#
+# - [@AlexBio](https://github.com/AlexBio)
+# - [@dbb](https://github.com/dbb)
+# - [@Mappleconfusers](https://github.com/Mappleconfusers)
+# - [@trinaldi](https://github.com/trinaldi)
+# - [Nicolas Jonas](https://nextgenthemes.com)
+# - [@loctauxphilippe](https://github.com/loctauxphilippe)
+# - [@HaraldNordgren](https://github.com/HaraldNordgren)
+
 let APT = $(if which apt &> /dev/null; echo apt; else; echo apt-get; end)
 
 alias acs = 'apt-cache search'
@@ -46,11 +59,10 @@ alias allpkgs = 'dpkg --get-selections | grep -v deinstall'
 # Create a basic .deb package
 alias mydeb = 'time dpkg-buildpackage -rfakeroot -us -uc'
 
-# apt-add-repository with automatic install/upgrade of the desired package
 # Usage: aar ppa:xxxxxx/xxxxxx [packagename]
 # If packagename is not given as 2nd argument the function will ask for it and guess the default by taking
 # the part after the / from the ppa name which is sometimes the right name for the package you want to install
-fn aar ppa:str package:str
+fn aar ppa:str package:str -- apt-add-repository with automatic install/upgrade of the desired package
 	if not test -n $package
 		echo "Type in the package name to install/upgrade with this ppa [$ppa]: "
         read package
@@ -72,12 +84,12 @@ end
 #   apt-history rollback
 #   apt-history list
 # Based On: https://linuxcommando.blogspot.com/2008/08/how-to-show-apt-log-history.html
-fn apt_history arg:str
-  match $arg
+fn apt_history action:str -- Prints the Apt history of the specified action
+  match $action
     case install
       zgrep --no-filename 'install ' $(ls -rt /var/log/dpkg*)
     case [ upgrade remove ]
-      zgrep --no-filename $arg $(ls -rt /var/log/dpkg*)
+      zgrep --no-filename $action $(ls -rt /var/log/dpkg*)
     case rollback
       zgrep --no-filename upgrade $(ls -rt /var/log/dpkg*) | \
         grep "$2" -A10000000 | \
@@ -95,8 +107,7 @@ fn apt_history arg:str
   end
 end
 
-# Kernel-package building shortcut
-fn kerndeb
+fn kerndeb -- Kernel-package building shortcut
   # temporarily unset MAKEFLAGS ( '-j3' will fail )
   let MAKEFLAGS = $( print - $or($MAKEFLAGS '') | perl -pe 's/-j\s*[\d]+//g' )
   print "\$MAKEFLAGS set to '$MAKEFLAGS'"
@@ -108,8 +119,7 @@ fn kerndeb
     # kernel_image kernel_headers
 end
 
-# List packages by size
-fn apt_list_packages
+fn apt_list_packages -- List packages by size
   dpkg-query -W --showformat='${Installed-Size} ${Package} ${Status}\n' | \
   grep -v deinstall | \
   sort -n | \

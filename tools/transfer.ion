@@ -1,10 +1,6 @@
 # transfer.sh Easy file sharing from the command line
-# transfer Plugin
-# Usage Example :
-# > transfer file.txt
-# > transfer directory/
 
-# Author:
+# Based upon the work of:
 #   Remco Verhoef <remco@dutchcoders.io>
 #   https://gist.github.com/nl5887/a511f172d3fb3cd0e42d
 #   Modified to use tar command instead of zip
@@ -15,7 +11,7 @@ if not curl --version &> /dev/null
   return 1
 end
 
-fn transfer file:str
+fn transfer file:str -- Transfer a file or a directory (directories will be compressed)
     # get temporarily filename, output is written to this file show progress can be showed
     let tmpfile = $( mktemp -t transferXXX )
 
