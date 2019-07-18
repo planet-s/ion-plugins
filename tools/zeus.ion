@@ -1,3 +1,5 @@
+## Based on the work of [b4mboo](https://github.com/b4mboo)
+
 # Some aliases for zeus. (See: https://github.com/burke/zeus)
 # Zeus preloads your Rails environment and forks that process whenever
 # needed. This effectively speeds up Rails' boot process to under 1 sec.

@@ -1,3 +1,5 @@
+# This plugin adds some aliases for common commands of the [Yarn package manager](https://yarnpkg.com/en/),
+
 alias y = 'yarn'
 alias ya = 'yarn add'
 alias yad = 'yarn add --dev'

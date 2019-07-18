@@ -1,3 +1,5 @@
+# This plugin adds useful aliases for common [Yum](http://yum.baseurl.org/) commands.
+
 ## Aliases
 
 alias ys = 'yum search'                       # search package

@@ -1,6 +1,23 @@
 # web_search from terminal
 
-fn web_search engine:str keywords:[str]
+# This plugin adds aliases for searching with Google, Wiki, Bing, YouTube and other popular services.
+
+## Usage
+
+# `<search engine> [<terms>...]`
+
+# Also there are aliases for bang-searching DuckDuckGo:
+
+# | Context   | Bang  |
+# |-----------|-------|
+# | `wiki`    | `!w`  |
+# | `news`    | `!n`  |
+# | `youtube` | `!yt` |
+# | `map`     | `!m`  |
+# | `image`   | `!i`  |
+# | `ducky`   | `!`   |
+
+fn web_search engine:str keywords:[str] -- Search keywords on the given search engine
   let urls:hmap[str] = [ \
     google        = "https://www.google.com/search?q=" \
     bing          = "https://www.bing.com/search?q=" \

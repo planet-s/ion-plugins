@@ -3,13 +3,12 @@
 # A command line interface for WordPress
 # https://wp-cli.org/
 
-# Cache
+# WP-CLI is a set of command-line tools for managing WordPress installations. You can update plugins, set up multisite installs and much more, without using a web browser.
+# The entire list of wp-cli commands can be found here: https://wp-cli.org/commands/
 
-# Cap
+# I only included the commands that are most used. Please feel free to contribute to this project if you want more commands.
 
-# CLI
-
-# Comment
+## Based upon the work of [joshmedeski](https://github.com/joshmedeski)
 
 # Core
 alias wpcc = 'wp core config'
@@ -27,30 +26,12 @@ alias wpcre = 'wp cron event'
 alias wpcrs = 'wp cron schedule'
 alias wpcrt = 'wp cron test'
 
-# Db
-
-# Eval
-
-# Eval-File
-
-# Export
-
-# Help
-
-# Import
-
-# Media
-
 # Menu
 alias wpmc = 'wp menu create'
 alias wpmd = 'wp menu delete'
 alias wpmi = 'wp menu item'
 alias wpml = 'wp menu list'
 alias wpmlo = 'wp menu location'
-
-# Network
-
-# Option
 
 # Plugin
 alias wppa = 'wp plugin activate'
@@ -78,24 +59,8 @@ alias wppom = 'wp post meta'
 alias wppou = 'wp post update'
 alias wppourl = 'wp post url'
 
-# Rewrite
-
-# Role
-
-# Scaffold
-
-# Search-Replace
-
-# Shell
-
 # Sidebar
 alias wpsbl = 'wp sidebar list'
-
-# Site
-
-# Super-Admin
-
-# Term
 
 # Theme
 alias wpta = 'wp theme activate'
@@ -111,8 +76,6 @@ alias wptp = 'wp theme path'
 alias wpts = 'wp theme search'
 alias wptst = 'wp theme status'
 alias wptu = 'wp theme update'
-
-# Transient
 
 # User
 alias wpuac = 'wp user add-cap'

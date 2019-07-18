@@ -1,9 +1,11 @@
+## Based upon the work of [Deepankumar](https://github.com/deepan10) 
+
 # Functions
-fn ansible_version
+fn ansible_version -- Show the version on ansible installed in this host
     ansible --version
 end
 
-fn ansible_role_init role:str
+fn ansible_role_init role:str -- Creates the Ansible Role as per Ansible Galaxy standard
     echo "Ansible Role : $role Creating...."
     ansible-galaxy init $role
     tree $role

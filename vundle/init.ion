@@ -1,4 +1,6 @@
-fn vundle_init
+# This plugin adds functions to control [vundle](https://github.com/VundleVim/Vundle.vim) plug-in manager for vim.
+
+fn vundle_init -- Install vundle by cloning git repository into ~/.vim folder
   mkdir -p ~/.vim/bundle/Vundle.vim/
 
   if not test -d ~/.vim/bundle/Vundle.vim/.git && not test -f ~/.vim/bundle/Vundle.vim/.git
@@ -7,17 +9,17 @@ fn vundle_init
   end
 end
 
-fn vundle
+fn vundle -- Install plugins set in .vimrc (equals `:PluginInstall`)
   vundle_init
   vim -c "execute \"PluginInstall\" | qa"
 end
 
-fn vundle_update
+fn vundle_update -- Update plugins set in .vimrc (equals `:PluginInstall!`)
   vundle_init
   vim -c "execute \"PluginInstall!\" | qa"
 end
 
-fn vundle_clean
+fn vundle_clean -- Delete plugins that have been removed from .vimrc (equals `:PluginClean!`)
   vundle_init
   vim -c "execute \"PluginClean!\" | qa"
 end
