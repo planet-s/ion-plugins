@@ -1,3 +1,5 @@
+# This plugin provides some features to simplify the use of Pipenv.
+
 # Aliases
 alias pch = 'pipenv check'
 alias pcl = 'pipenv clean'

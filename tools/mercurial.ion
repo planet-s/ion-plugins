@@ -1,3 +1,5 @@
+# ## Based upon the work of [ptrv](https://github.com/ptrv) and [oshybystyi](https://github.com/oshybystyi)
+
 # Mercurial
 alias hga='hg add'
 alias hgc='hg commit'
@@ -19,26 +21,18 @@ alias hgca='hg commit --amend'
 # list unresolved files (since hg does not list unmerged files in the status command)
 alias hgun='hg resolve --list'
 
-fn in_hg
+fn in_hg -- is this a mercurial repo?
   test -d .hg || $(hg summary &> /dev/null)
 end
 
-fn hg_get_branch_name
+fn hg_get_branch_name -- Get the current mercurial branch name
   if in_hg
     echo $(hg branch)
   end
 end
 
-fn hg_dirty_choose if_true:str if_false:str
-  if in_hg
-    if hg status ^> /dev/null | command grep -Eq '^\s*[ACDIM!?L]'
-      # Grep exits with 0 when "One or more lines were selected", return "dirty".
-      echo $if_true
-    else
-      # Otherwise, no lines were found, or an error occurred. Return clean.
-      echo $if_false
-    end
-  end
+fn hg_dirty_choose -- Is the current a dirty mercurial repo?
+  in_hg && hg status ^> /dev/null | command grep -Eq '^\s*[ACDIM!?L]'
 end
 
 fn hgic incomings:[str]

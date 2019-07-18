@@ -1,5 +1,23 @@
 # Some useful nmap aliases for scan modes
-
+#
+# ## Aliases explained
+# 
+#  * nmap\_open\_ports - Scan for open ports on target
+#  * nmap\_list\_interfaces - List all network interfaces on host where the command runs
+#  * nmap\_slow - Slow scan that avoids to spam the targets logs
+#  * nmap\_fin - Scan to see if hosts are up with TCP FIN scan
+#  * nmap\_full - Aggressive full scan that scans all ports, tries to determine OS and service versions
+#  * nmap\_check\_for\_firewall - TCP ACK scan to check for firewall existence
+#  * nmap\_ping\_through\_firewall - Host discovery with SYN and ACK probes instead of just pings to avoid firewall
+#    restrictions
+#  * nmap\_fast - Fast scan of the top 300 popular ports
+#  * nmap\_detect\_versions - Detects versions of services and OS, runs on all ports
+#  * nmap\_check\_for\_vulns - Uses vulscan script to check target services for vulnerabilities
+#  * nmap\_full\_udp - Same as full but via UDP
+#  * nmap\_traceroute - Try to traceroute using the most common ports
+#  * nmap\_full\_with\_scripts - Same as nmap\_full but also runs all the scripts
+#  * nmap\_web\_safe\_osscan - Little "safer" scan for OS version  as connecting to only HTTP and HTTPS ports doesn't look so attacking.
+# 
 # Nmap options are:
 #  -sS - TCP SYN scan
 #  -v - verbose
