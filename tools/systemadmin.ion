@@ -1,16 +1,6 @@
-# ------------------------------------------------------------------------------
-# Description
-# -----------
-#
 # This is one for the system administrator, operation and maintenance.
 #
-# ------------------------------------------------------------------------------
-# Authors
-# -------
-#
-# * Dongweiming <ciici123@gmail.com>
-#
-# ------------------------------------------------------------------------------
+# Based upon the work of Dongweiming <ciici123@gmail.com>
 
 fn retlog log:str
     echo $or($log '/var/log/nginx/access.log')
@@ -30,14 +20,12 @@ alias pscpu10 = 'ps -e -o pcpu,cpu,nice,state,cputime,args|sort -k1 -nr | head -
 alias dls = 'ls -1 -d */'
 alias psgrep = 'ps aux | grep '
 
-# Kills any process that matches a regexp passed to it
-fn killit process:str
+fn killit process:str -- Kills any process that matches a regexp passed to it
     ps aux | grep -v "grep" | grep $process | awk '{print $2}' | xargs sudo kill
 end
 
-# list contents of directories in a tree-like format
 if not which tree &> /dev/null
-    fn tree params:[str]
+    fn tree params:[str] -- list contents of directories in a tree-like format (if tree is not installed)
         find @params -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
     end
 end
@@ -48,80 +36,66 @@ alias sortcons = "netstat -nat |awk '{print \$6}'|sort|uniq -c|sort -rn"
 # View all 80 Port Connections
 alias con80 = 'netstat -nat|grep -i ":80"|wc -l'
 
-# On the connected IP sorted by the number of connections
-fn sortconip
+# 
+fn sortconip -- On the connected IP sorted by the number of connections
     cnetstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
 end
 
-# top20 of Find the number of requests on 80 port
-fn req20
+fn req20 -- top20 of Find the number of requests on 80 port
     netstat -anlp|grep 80|grep tcp|awk '{print $5}'|awk -F: '{print $1}'|sort|uniq -c|sort -nr|head -n20
 end
 
-# top20 of Using tcpdump port 80 access to view
-fn http20
+fn http20 -- top20 of Using tcpdump port 80 access to view
     sudo tcpdump -i eth0 -tnn dst port 80 -c 1000 | awk -F"." '{print $1"."$2"."$3"."$4}' | sort | uniq -c | sort -nr |head -20
 end
 
-# top20 of Find time_wait connection
-fn timewait20
+fn timewait20 -- top20 of Find time_wait connection
     netstat -n|grep TIME_WAIT|awk '{print $5}'|sort|uniq -c|sort -rn|head -n20
 end
 
-# top20 of Find SYN connection
-fn syn20
+fn syn20 -- top20 of Find SYN connection
     netstat -an | grep SYN | awk '{print $5}' | awk -F: '{print $1}' | sort | uniq -c | sort -nr|head -n20
 end
 
-# Printing process according to the port number
-fn port_pro $port
+fn port_pro $port -- Printing process according to the port number
     netstat -ntlp | grep $or($port '.') | awk '{print $7}' | cut -d/ -f1
 end
 
-# top10 of gain access to the ip address
-fn accessip10
+fn accessip10 -- top10 of gain access to the ip address
     awk '{counts[$(11)]+=1}; END {for(url in counts) print counts[url], url}' "$(retlog)"
 end
 
-# top20 of Most Visited file or page
-fn visitpage20
+fn visitpage20 -- top20 of Most Visited file or page
     awk '{print $11}' "$(retlog)"|sort|uniq -c|sort -nr|head -20
 end
 
-# top100 of Page lists the most time-consuming (more than 60 seconds) as well as the corresponding page number of occurrences
-fn consume100
+fn consume100 -- top100 of Page lists the most time-consuming (more than 60 seconds) as well as the corresponding page number of occurrences
     awk '($NF > 60 && $7~/\.php/){print $7}' "$(retlog)" |sort -n|uniq -c|sort -nr|head -100
     # if django website or other webiste make by no suffix language
     # awk '{print $7}' "$(retlog)" |sort -n|uniq -c|sort -nr|head -100
 end
 
-# Website traffic statistics (G)
-fn webtraffic
+fn webtraffic -- Website traffic statistics (G)
     awk '{sum+=$10} END {print sum/1024/1024/1024}' '$(retlog)'
 end
 
-# Statistical connections 404
-fn c404
+fn c404 -- Statistical connections 404
     awk '($9 ~/404/)' "$(retlog)" | awk '{print $9,$7}' | sort
 end
 
-# Statistical http status.
-fn httpstatus
+fn httpstatus -- Statistical http status.
     awk '{counts[$(9)]+=1}; END {for(code in counts) print code, counts[code]}' "$(retlog)"
 end
 
-# Delete 0 byte file
-fn d0 directory:str
+fn d0 directory:str -- Delete 0 byte file
     find $or($directory '.') -type f -size 0 -exec rm -rf {} \;
 end
 
-# gather external ip address
-fn geteip
+fn geteip -- gather external ip address
     curl -s -S https://icanhazip.com
 end
 
-# determine local IP address(es)
-fn getip
+fn getip -- determine local IP address(es)
     if which ip &> /dev/null
         ip addr | awk '/inet /{print $2}' | command grep -v 127.0.0.1
     else
@@ -129,12 +103,10 @@ fn getip
     end
 end
 
-# Clear zombie processes
-fn clrz
+fn clrz -- Clear zombie processes
     ps -eal | awk '{ if ($2 == "Z") {print $4}}' | kill -9
 end
 
-# Second concurrent
-fn conssec
+fn conssec -- Second concurrent
     awk '{if($9~/200|30|404/)COUNT[$4]++}END{for( a in COUNT) print a,COUNT[a]}' "$(retlog)"|sort -k 2 -nr|head -n10
 end

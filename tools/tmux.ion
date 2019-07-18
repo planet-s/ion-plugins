@@ -65,9 +65,9 @@ let TMUX_FIXTERM_WITH_256COLOR ?= screen-256color
 
 # Set the correct local config file to use.
 if not bool $TMUX_ITERM2 && test -e "$HOME/.tmux.conf"
-  export _TMUX_FIXED_CONFIG = "$(dirname $(readlink -f @args[0]))/tmux.extra.conf"
+  export _TMUX_FIXED_CONFIG = "$(dirname $(readlink -f @args[0]))/tmux/extra.conf"
 else
-  export _TMUX_FIXED_CONFIG = "$(dirname $(readlink -f @args[0]))/tmux.only.conf"
+  export _TMUX_FIXED_CONFIG = "$(dirname $(readlink -f @args[0]))/tmux/only.conf"
 end
 
 # Wrapper function for tmux.

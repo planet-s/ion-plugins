@@ -1,3 +1,5 @@
+# This plugin provides aliases for frequent [Symfony 2](https://symfony.com/) commands.
+
 #Alias
 alias sf = '`_symfony_console`'
 alias sfcl = 'sf cache:clear'
