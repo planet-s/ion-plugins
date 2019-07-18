@@ -1,3 +1,6 @@
+# Provide helpers for Python's autoenv
+# When loading the plugin, autoenv will be started
+
 # Activates autoenv or reports its failure
 if not type autoenv_init > /dev/null
   for d in ~/.autoenv ~/.local/bin /usr/local/opt/autoenv /usr/local/bin
@@ -19,7 +22,7 @@ end
 # virtualenv, requiring only a single declarative line of code in your .env files.
 # It only performs an action if the requested virtualenv is not the current one.
 
-fn use_env venv:str
+fn use_env venv:str -- Use a new autoenv environment
     if not eq $or(${VIRTUAL_ENV:t} '') $venv
         if workon | grep -q $venv
             workon $venv
