@@ -12,7 +12,7 @@ section.container
             pre
               code.block {{ initrc }}
   .selection
-    plugin-selector(:items="items" @update="toggle($event.title)")
+    plugin-selector(:items="items" @update="toggle(`${$event.category}/${event.title}.ion`)")
 </template>
 
 <script>
@@ -33,7 +33,7 @@ export default {
       if (this.selection.length !== 0) {
         initrc += '\n\n# Your list of plugins';
       }
-      return [...this.selection].reduce((rest, item) => `${rest}\nsource ~/.config/ion/plugins/${item}/init.ion`, initrc);
+      return [...this.selection].reduce((rest, item) => `${rest}\nsource ~/.config/ion/plugins/${item}`, initrc);
     },
   },
   methods: {
