@@ -13,7 +13,7 @@ cache:
 pages:
   script:
     - ./generate.sh > src/static/data.json
-    - yarn generate || true
+    - yarn generate
     - mv dist ../public
   artifacts:
     paths:

@@ -16,12 +16,14 @@ section.container
 </template>
 
 <script>
+import items from '~/static/data.json';
 import PluginSelector from '~/components/PluginSelector.vue';
 
 export default {
   components: { PluginSelector },
   data() {
     return {
+      items,
       selection: [],
     };
   },
@@ -44,13 +46,6 @@ export default {
         this.selection.splice(index, 1);
       }
     },
-  },
-  async asyncData({ $axios }) {
-    const data = {};
-
-    data.items = await $axios.get('/data.json').then(res => res.data);
-
-    return data;
   },
 };
 </script>
