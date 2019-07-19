@@ -12,14 +12,14 @@
 let ION_PIP_CACHE_FILE = ~/.pip/ion-cache
 let ION_PIP_INDEXES = [ https://pypi.org/simple/ ]
 
-fn pip_clear_cache
+fn pip_clear_cache -- clear the pip cache
   rm $ION_PIP_CACHE_FILE
   export piplist = ''
 end
 
 alias pip_clean_packages = "sed -n '/<a href/ s/.*>\([^<]\{1,\}\).*/\1/p'"
 
-fn pip_cache_packages
+fn pip_cache_packages -- get the pip cache
   mkdir -p $(dirname $ION_PIP_CACHE_FILE)
 
   if not test -f $ION_PIP_CACHE_FILE
@@ -39,7 +39,7 @@ end
 # index. If you modify the regex to make it work for you, you should add a test
 # case in here and make sure that your changes don't break things for someone
 # else.
-fn pip_test_clean_packages
+fn _pip_test_clean_packages
     let expected = "0x10c-asm\n1009558_nester"
 
     let actual = $(echo -n "<html><head><title>Simple Index</title><meta name=\"api-version\" value=\"2\" /></head><body>

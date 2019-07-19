@@ -1,0 +1,21 @@
+image: node
+
+before_script:
+  - apt install -y jq pandoc
+  - cd pages
+  - npm install
+
+cache:
+  paths:
+    - node_modules/
+
+pages:
+  script:
+    - cd pages
+    - ./generate.sh > src/static/data.json
+    - npm run generate
+  artifacts:
+    paths:
+      - public
+  only:
+    - master

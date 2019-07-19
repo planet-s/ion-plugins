@@ -22,25 +22,11 @@ export default {
   components: { PluginSelector },
   data() {
     return {
-      items: [{
-        title: 'ubuntu',
-        content: 'Given a 24-hour day and 360 degrees of longitude around the Earth',
-        category: 'OS',
-      }, {
-        title: 'yarn',
-        content: 'Binturongs smell like popcorn.',
-        category: 'Language',
-      }, {
-        title: 'system_admin',
-        content: 'tatata',
-        category: 'Misc',
-      }],
       selection: [],
     };
   },
   computed: {
     initrc() {
-      console.log('here', this.selection);
       let initrc = 'source ~/.config/ion/plugins/init.ion';
       if (this.selection.length !== 0) {
         initrc += '\n\n# Your list of plugins';
@@ -58,6 +44,13 @@ export default {
         this.selection.splice(index, 1);
       }
     },
+  },
+  async asyncData({ $axios }) {
+    const data = {};
+
+    data.items = await $axios.get('/data.json').then(res => res.data);
+
+    return data;
   },
 };
 </script>
