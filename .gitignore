@@ -1,2 +1,3 @@
 *.swp
 /pages/src/static/data.json
+.nuxt/
