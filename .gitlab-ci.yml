@@ -8,13 +8,13 @@ before_script:
 
 cache:
   paths:
-    - node_modules/
+    - pages/node_modules/
 
 pages:
   script:
     - ./generate.sh > src/static/data.json
     - yarn generate || true
-    - mv public ..
+    - mv dist ../public
   artifacts:
     paths:
       - public
