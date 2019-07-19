@@ -131,7 +131,7 @@ h1 {
   }
 
   .explanations {
-    height: 50vh;
+    min-height: 50vh;
     margin: 10vh 10vw 0;
   }
 }
