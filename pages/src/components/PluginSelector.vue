@@ -15,7 +15,8 @@ section.faq(ref="rootEl")
           div(:class="generateQuestionClasses(i)" @click="makeActive(i)")
             p.accordion__title-text(v-html="item['title']")
             .buttons
-              button.button--green(@click.stop="$emit('update', item)") Add
+              button.button--green(v-if="value.indexOf(item) === -1" @click.stop="$emit('update', item)") Add
+              button.button--red(v-else @click.stop="$emit('update', item)") Remove
               button(:class="generateButtonClasses(i)")
           collapse-transition
             div.accordion__value(v-if="i === activeQuestionIndex")
@@ -40,9 +41,7 @@ import { CollapseTransition } from 'vue2-transitions';
 
 export default {
   name: 'VueFaqAccordion',
-  components: {
-    CollapseTransition,
-  },
+  components: { CollapseTransition },
   data() {
     return {
       activeTab: 0,
@@ -51,12 +50,11 @@ export default {
     };
   },
   props: {
-    /**
-       * Array of items
-       * Object style {questionProperty: string, answerProperty: string, tabName: string}
-       * You can change object keys names using other props (questionProperty, answerProperty, tabName)
-       */
     items: {
+      type: Array,
+      required: true,
+    },
+    value: {
       type: Array,
       required: true,
     },
@@ -247,8 +245,8 @@ export default {
         content: '';
         position: absolute;
         left: 0;
-        width: 100%;
-        height: 2px;
+        width: 2px;
+        height: 1.5em;
         transition: all 0.3s;
         background: black;
       }
