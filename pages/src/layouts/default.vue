@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style>
+<style lang="scss">
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   word-spacing: 1px;
@@ -26,6 +26,7 @@ html {
   }
 }
 
+$button: #3b8070;
 .button--green {
   display: inline-block;
   border-radius: 4px;
@@ -33,23 +34,16 @@ html {
   text-decoration: none;
   padding: 10px 30px;
   color: #fff;
-  background-color: #3b8070;
-}
-.button--green:hover {
-  background: #1d4038;
-}
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid white;
-  color: white;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-.button--grey:hover {
-  background-color: #fff;
-  color: #35495e;
+  background-color: $button;
+  cursor: pointer;
+
+  &:hover {
+    background: darken($button, 10%);
+  }
+
+  &:active {
+    background: darken($button, 15%);
+  }
 }
 code {
     display: inline-block;

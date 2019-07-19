@@ -14,7 +14,9 @@ section.faq(ref="rootEl")
         .accordion__item(v-for="(item, i) in categoryItems" :key="i")
           div(:class="generateQuestionClasses(i)" @click="makeActive(i)")
             p.accordion__title-text(v-html="item['title']")
-            button(:class="generateButtonClasses(i)")
+            .buttons
+              button.button--green(@click.stop="$emit('update', item)") Add
+              button(:class="generateButtonClasses(i)")
           collapse-transition
             div.accordion__value(v-if="i === activeQuestionIndex")
               h2 Description
@@ -232,12 +234,14 @@ export default {
     }
     &__toggle-button {
       position: relative;
-      width: 16px;
-      height: 16px;
+      width: 1em;
+      height: 1em;
       transition: all 0.3s;
       transform-origin: 50% 50%;
       padding-left: 16px;
+      margin-left: 2em;
       cursor: pointer;
+
       &::before,
       &::after {
         content: '';

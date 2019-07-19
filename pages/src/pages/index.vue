@@ -64,7 +64,7 @@ $inverse: #de935f;
 }
 
 .explanations {
-  height: 80vh;
+  min-height: 40vh;
   margin: 0 2vw 0;
 
   ol {
