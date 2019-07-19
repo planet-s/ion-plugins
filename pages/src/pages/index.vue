@@ -50,61 +50,64 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+$bg: #35495e;
+$inverse: #de935f;
+
 .container {
   min-height: 100vh;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: #35495e;
+  background-color: $bg;
   flex-flow: column;
 }
 
 .explanations {
   height: 80vh;
   margin: 0 2vw 0;
-}
 
-.explanations ol {
-  padding-left: 0;
-  list-style-type: none;
-  counter-reset: item;
-}
+  ol {
+    padding-left: 0;
+    list-style-type: none;
+    counter-reset: item;
+  }
 
-.explanations li {
-  margin: 1em;
-}
+  li {
+    margin: 1em;
 
-.explanations li:before {
-  content: counter(item) " – ";
-  counter-increment: item;
-  display: marker;
-  width: 2em;
-  color: rgba(255,255,255,0.6);
-  font-style: italic;
+    &:before {
+      content: counter(item) " – ";
+      counter-increment: item;
+      display: marker;
+      width: 2em;
+      color: rgba(255,255,255,0.6);
+      font-style: italic;
+    }
+  }
 }
 
 .selection {
-  background-color: #de935f;
+  background-color: $inverse;
   min-height: calc(100vh + 60px);
   min-width: 100vw;
   padding-top: 20vh;
   position: relative;
-}
 
-.selection:after {
-  top: -60px;
-  left: 50%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-top-color: #35495e;
-  border-width: 100px;
-  margin-left: -100px;
-  transform: scaleY(0.4)
+  &:after {
+    top: -60px;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-top-color: $bg;
+    border-width: 100px;
+    margin-left: -100px;
+    transform: scaleY(0.4)
+  }
 }
 
 .small {

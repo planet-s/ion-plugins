@@ -1,7 +1,8 @@
 <template lang="pug">
-  vue-faq-accordion(:items="items" border-color="#35495e" active-color="#921827")
+  vue-faq-accordion(:items="items")
     template(v-slot:default="props")
-      p(v-html="props.item.desc")
+      h2 Description
+      p.description(v-html="props.item.desc")
       .aliases(v-if="Object.entries(props.item.aliases).length !== 0")
         h2 Aliases
         code.block
@@ -30,7 +31,10 @@ export default {
 </script>
 
 <style>
-.button--green {
+.description {
+  border-left: 5px solid white;
+  padding: 2em;
+  font-size: 0.75em;
   margin: 1em;
 }
 </style>

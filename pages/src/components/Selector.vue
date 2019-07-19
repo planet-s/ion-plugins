@@ -4,25 +4,20 @@ section.faq(ref="rootEl")
     nav.faq__nav(v-if="hasNavigation")
       div(
         v-for="(category, i) in categories"
-        :key="`category-${i}`"
-        v-html="category"
-        :class="generateCategoryClasses(category)"
-        @click="makeActiveCategory(category)"
-      )
+        :key="i"
+        :class="generateCategoryClasses(i)"
+        @click="makeActiveCategory(i)"
+      ) {{ category }}
 
     transition(name="accordion-fade-slide" mode="out-in")
       .accordion(v-if="showAccordion")
-        .accordion__item(
-          v-for="(item, i) in categoryItems"
-          :key="`accordion-item-${i}`"
-        )
+        .accordion__item(v-for="(item, i) in categoryItems" :key="i")
           div(:class="generateQuestionClasses(i)" @click="makeActive(i)")
-            p.accordion__title-text(v-html="item[questionProperty]")
+            p.accordion__title-text(v-html="item['title']")
             button(:class="generateButtonClasses(i)")
           collapse-transition
-            div(v-if="i === activeQuestionIndex")
+            div.accordion__value(v-if="i === activeQuestionIndex")
               slot(v-bind:item="item")
-                p.accordion__value(v-html="item[answerProperty]")
 </template>
 
 <script>
@@ -36,7 +31,7 @@ export default {
   },
   data() {
     return {
-      activeTab: '',
+      activeTab: 0,
       activeQuestionIndex: null,
       showAccordion: true,
     };
@@ -51,61 +46,14 @@ export default {
       type: Array,
       required: true,
     },
-    /**
-       * Key name of object in items array for specifying title of question
-       */
-    questionProperty: {
-      type: String,
-      default: 'title',
-    },
-    /**
-       * Key name of object in items array for specifying content text of open question
-       */
-    answerProperty: {
-      type: String,
-      default: 'value',
-    },
-    /**
-       * Key name of object in items array for specifying navigation tab name
-       */
-    tabName: {
-      type: String,
-      default: 'category',
-    },
-    /**
-       * Color for hover and active tab/question
-       * possible values: 'red', '#F00', 'rgb(255, 0, 0)'
-       */
-    activeColor: {
-      type: String,
-      default: '#D50000',
-    },
-    /**
-       * Color for borders
-       */
-    borderColor: {
-      type: String,
-      default: '#9E9E9E',
-    },
-    /**
-       * Color for fonts
-       */
-    fontColor: {
-      type: String,
-      default: '#000000',
-    },
   },
   computed: {
     categories() {
-      const uniqueCategories = this.items
-        .map(item => item[this.tabName])
-        .filter((category, index, categories) => categories.indexOf(category) === index);
-      this.activeTab = uniqueCategories[0];
+      const uniqueCategories = [...new Set(this.items.map(item => item.category))];
       return uniqueCategories;
     },
     categoryItems() {
-      return this.items
-        .filter(item => item[this.tabName] === this.activeTab);
+      return this.items.filter(item => item.category === this.categories[this.activeTab]);
     },
     hasNavigation() {
       return !!this.categories[0];
@@ -141,6 +89,7 @@ export default {
       }, 300);
     },
     generateCategoryClasses(category) {
+      console.log(this.activeTab, category);
       return [
         'faq__nav-item',
         this.activeTab === category
@@ -149,15 +98,16 @@ export default {
       ];
     },
   },
-  mounted() {
-    this.$refs.rootEl.style.setProperty('--active-color', this.activeColor);
-    this.$refs.rootEl.style.setProperty('--border-color', this.borderColor);
-    this.$refs.rootEl.style.setProperty('--font-color', this.fontColor);
-  },
 };
 </script>
 
 <style lang="scss" scoped>
+  $inverse: #de935f;
+  $fg: $inverse;
+  $activecolor: adjust-hue($inverse, -30);
+  $bg: #35495e;
+  $bordercolor: lighten($bg, 10%);
+
   * {
     box-sizing: border-box;
     margin: 0;
@@ -182,27 +132,28 @@ export default {
     &__nav {
       display: flex;
       justify-content: space-between;
-      border: 2px solid var(--border-color);
+      border: 2px solid $bordercolor;
       border-radius: 5px;
+      background: $bg;
     }
     &__nav-item {
-      height: 60px;
+      height: 3em;
       flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
-      border-right: 2px solid var(--border-color);
+      border-right: 2px solid $bordercolor;
       cursor: pointer;
       font-weight: 600;
       transition: all 0.3s;
       text-align: center;
       user-select: none;
-      color: var(--font-color);
+      color: $fg;
       &_active {
-        color: var(--active-color);
+        color: $activecolor;
       }
       &:hover {
-        color: var(--active-color);
+        color: $activecolor;
       }
       &:last-child {
         border-right: none;
@@ -227,11 +178,13 @@ export default {
     }
   }
   .accordion {
-    border: 2px solid var(--border-color);
+    background: $bg;
+    border: 2px solid $bordercolor;
     border-radius: 5px;
     margin-top: 15px;
     &__item {
-      border-bottom: 2px solid var(--border-color);
+      border-bottom: 2px solid $bordercolor;
+      padding: 25px;
       &:last-child {
         border-bottom: none;
       }
@@ -240,19 +193,18 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 25px;
       cursor: pointer;
       transition: all 0.3s;
-      color: var(--font-color);
+      color: $fg;
       &_active {
-        color: var(--active-color);
+        color: $activecolor;
       }
       &:hover {
-        color: var(--active-color);
+        color: $activecolor;
         .accordion__toggle-button {
           &::before,
           &::after {
-            background: var(--active-color);
+            background: $activecolor;
           }
         }
       }
@@ -261,9 +213,10 @@ export default {
       }
     }
     &__value {
-      padding: 0 25px 25px 25px;
+      margin: 25px 0 0;
+      border-top: 2px solid $bordercolor;
+      padding: 25px 0 0;
       text-align: left;
-      color: var(--font-color);
     }
     &__toggle-button {
       position: relative;
@@ -290,7 +243,7 @@ export default {
         transform: rotate(45deg);
         &::before,
         &::after {
-          background: var(--active-color);
+          background: $activecolor;
         }
       }
     }
