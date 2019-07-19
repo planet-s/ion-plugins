@@ -12,7 +12,7 @@ section.container
             pre
               code.block {{ initrc }}
   .selection
-    plugin-selector(:items="items" @update="toggle(`${$event.category}/${event.title}.ion`)")
+    plugin-selector(:items="items" @update="toggle(`${$event.category}/${$event.title}.ion`)")
 </template>
 
 <script>
