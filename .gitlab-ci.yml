@@ -1,9 +1,10 @@
 image: node
 
 before_script:
-  - apt install -y jq pandoc
+  - apt-get update && apt-get -y upgrade
+  - apt-get install -y jq pandoc
   - cd pages
-  - npm install
+  - yarn
 
 cache:
   paths:
@@ -11,11 +12,10 @@ cache:
 
 pages:
   script:
-    - cd pages
     - ./generate.sh > src/static/data.json
-    - npm run generate
+    - yarn generate
   artifacts:
     paths:
-      - public
+      - pages/public
   only:
     - master
