@@ -4,26 +4,27 @@ super=$(dirname "$(dirname "$(readlink -f "$0")")")
 collected='[]'
 
 for file in $super/*/*.ion; do
+  jq_prog='split("\n") | map(split("\t")) | map({ key: .[0], value: .[1]}) | map(select(.key != null)) | from_entries'
   title=$(basename -- "$file" '.ion')
   category=$(basename $(dirname $file))
-  desc=$(grep -oPn '(?=^# ).*' "$file" | awk 'BEGIN{FS=OFS=":"}{if ($1 == i + 1) { $1=""; i++; print $0} else {}}' | sed 's/:# //g' | pandoc -f markdown)
-  aliases=$(grep -oP '(?=^ *)alias (\w[\w_]*) = '"'"'(.+)'"'" "$file" | sed 's/alias \(\w[\w_]*\) = '"'"'\(.*\)'"'"'/\1\t\2/g' | jq -Rs 'split("\n") | map(split("\t")) | map({ key: .[0], value: .[1]}) | map(select(.key != null)) | from_entries')
-  funcs=$(grep -oP '(?=^ *)fn (.*) -- (.*)' "$file" | sed 's/fn \(.*\) -- \(.*\)/\1\t\2/g' | jq -Rs 'split("\n") | map(split("\t")) | map({ key: .[0], value: .[1]}) | map(select(.key != null)) | from_entries')
+  desc=$(awk -v i=1 '$1 == "#"{ if (NR == i) { $1 = ""; i += 1; print } else { exit } }' "$file" | pandoc -f markdown)
+  aliases=$(perl -ne '/^ *alias (\w[\w_]*) = '"'"'(.+)'"'"'/ && print "$1\t$2\n";' "$file" | jq -Rs "$jq_prog")
+  funcs=$(perl -ne '/^ *fn (.*?) -- (.*)$/ && print "$1\t$2\n"' "$file" | jq -Rs "$jq_prog")
 
-  out=$(echo $collected | jq -e \
-     --arg desc        "$desc" \
+  out=$(printf "%s" "$collected" | jq -e \
      --arg title       "$title" \
      --arg category    "$category" \
+     --arg desc        "$desc" \
      --argjson aliases "$aliases" \
      --argjson funcs   "$funcs" \
-     '. += [{ desc: $desc, title: $title, category: $category, aliases: $aliases, funcs: $funcs }]' | jq .)
+     '. += [{ desc: $desc, title: $title, category: $category, aliases: $aliases, funcs: $funcs }]')
   if [ $? -eq 0 ] && [ -n "$out" ]; then
     collected=$out
   else
-    printf "\033[31;1m Error for file $file \033[0m"
+    printf "\033[31;1m --> Error for file $file \033[0m\n"
 
     exit 1
   fi
 done
 
-echo $collected | jq '.'
+printf "%s\n" "$collected" | jq '.'
