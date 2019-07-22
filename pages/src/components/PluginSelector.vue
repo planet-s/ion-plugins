@@ -15,7 +15,10 @@ section.faq(ref="rootEl")
           div(:class="generateQuestionClasses(i)" @click="makeActive(i)")
             p.accordion__title-text(v-html="item['title']")
             .buttons
-              button.button--green(v-if="value.indexOf(item) === -1" @click.stop="$emit('update', item)") Add
+              button.button--green(
+                v-if="value.indexOf(item) === -1"
+                @click.stop="$emit('update', item)"
+              ) Select
               button.button--red(v-else @click.stop="$emit('update', item)") Remove
               button(:class="generateButtonClasses(i)")
           collapse-transition
@@ -32,7 +35,11 @@ section.faq(ref="rootEl")
                 code.block
                   span(v-for="description, name in item.funcs") fn {{ name }} -- {{ description }}
                     br
-              button.button--green(@click="$emit('update', item)") Add
+              button.button--green(
+                v-if="value.indexOf(item) === -1"
+                @click.stop="$emit('update', item)"
+              ) Select
+              button.button--red(v-else @click.stop="$emit('update', item)") Remove
 </template>
 
 <script>
@@ -101,7 +108,6 @@ export default {
       }, 300);
     },
     generateCategoryClasses(category) {
-      console.log(this.activeTab, category);
       return [
         'faq__nav-item',
         this.activeTab === category
@@ -232,21 +238,22 @@ export default {
     }
     &__toggle-button {
       position: relative;
-      width: 1em;
-      height: 1em;
+      width: 1.25em;
+      height: 1.25em;
       transition: all 0.3s;
       transform-origin: 50% 50%;
-      padding-left: 16px;
+      padding-left: 1.25em;
       margin-left: 2em;
       cursor: pointer;
+      vertical-align: middle;
 
       &::before,
       &::after {
         content: '';
         position: absolute;
         left: 0;
-        width: 2px;
-        height: 1.5em;
+        width: 100%;
+        height: 2px;
         transition: all 0.3s;
         background: black;
       }
