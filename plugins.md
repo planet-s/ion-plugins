@@ -227,7 +227,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | gulp                     | Not happening                  |
 |--------------------------+--------------------------------|
-| hanami                   | Planned                        |
+| hanami                   | Done                           |
 |--------------------------+--------------------------------|
 | helm                     | Not happening                  |
 |--------------------------+--------------------------------|
