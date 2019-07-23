@@ -1,0 +1,72 @@
+# Plugin to handle some unix filesystem permissions quickly
+#
+# ### Usage
+#
+# * `set755` recursively sets all given directories (default to .) to octal 755.
+# * `set644` recursively sets all given files (default to .) to octal 644.
+# * `fixperms` is a wrapper around `set755` and `set644` applied to a specified directory or the current directory otherwise. It also prompts prior to execution unlike the other two  aliases.
+#
+# Based upon the work of:
+#  - Rory Hardy [GneatGeek]
+#  - Andrew Janke [apjanke]
+
+fn set644 files:str -- Set all files permissions to 644 recursively in a directory
+	find $or($files '.') -type f ! -perm 644 -print0 | xargs -0 chmod 644
+end
+
+fn set755 files:str -- Set all directories permissions to 755 recursively in a directory
+	find $or($files '.') -type d ! -perm 755 -print0 | xargs -0 chmod 755
+end
+
+# Returns 0 on success, nonzero if any errors occurred
+fn fixperms options:[str] target:str -- fix permissions on files and directories, with confirmation
+#  if [[ $# > 1 || -n "${opts[(r)--help]}" ]]; then
+#    echo '
+#Usage: fixperms [-v] [--slow] [target]
+#
+#  target  is the file or directory to change permissions on. If omitted,
+#          the current directory is taken to be the target.
+#
+#  -v      enables verbose output (may be supplied multiple times)
+#
+#  --slow  will use a slower but more robust mode, which is effective if
+#          directories themselves have permissions that forbid you from
+#          traversing them.
+#'
+#    exit_status=$(( $# > 1 ))
+#    return $exit_status
+#  fi
+
+  let target ?= '.'
+
+  echo "Fixing perms on $target?"
+  printf '%s' "Proceed? (y|n) "
+  read confirm
+  if not eq $confirm 'y'
+    # User aborted
+    return 1
+  end
+
+  # This xargs form is faster than -exec chmod <N> {} \; but will encounter
+  # issues if the directories themselves have permissions such that you can't
+  # recurse in to them. If that happens, just rerun this a few times.
+  let exit_status = 0;
+  if contains --slow @options
+    # Process directories first so non-traversable ones are fixed as we go
+    if not find "$target" -type d ! -perm 755 -exec chmod 755 {} \;
+      let exit_status = $?
+    end
+    if not find "$target" -type f ! -perm 644 -exec chmod 644 {} \;
+      let exit_status = $?
+    end
+  else
+    if not find $target -type d ! -perm 755 -print0 | xargs -0 chmod 755
+      let exit_status = $?
+    end
+    if not find $target -type f ! -perm 644 -print0 | xargs -0 chmod 644
+      let exit_status = $?
+    end
+  end
+  echo "Complete"
+  return $exit_status
+end
