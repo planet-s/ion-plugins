@@ -129,7 +129,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | doctl                    | Not happening                  |
 |--------------------------+--------------------------------|
-| dotenv                   | Planned                        |
+| dotenv                   | Planned, missing features      |
 |--------------------------+--------------------------------|
 | droplr                   | Not sure                       |
 |--------------------------+--------------------------------|
