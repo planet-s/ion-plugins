@@ -171,7 +171,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | fossil                   | Not sure                       |
 |--------------------------+--------------------------------|
-| frontend-search          | Planned                        |
+| frontend-search          | Done                           |
 |--------------------------+--------------------------------|
 | fzf                      | Planned, missing features      |
 |--------------------------+--------------------------------|
