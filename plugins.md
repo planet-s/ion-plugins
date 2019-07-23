@@ -199,7 +199,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | github                   | Planned                        |
 |--------------------------+--------------------------------|
-| git-hubflow              | Planned                        |
+| git-hubflow              | Done                           |
 |--------------------------+--------------------------------|
 | gitignore                | Not sure                       |
 |--------------------------+--------------------------------|
