@@ -75,9 +75,9 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | cloudapp                 | Planned                        |
 |--------------------------+--------------------------------|
-| cloudfoundry             | Planned                        |
+| cloudfoundry             | Done                           |
 |--------------------------+--------------------------------|
-| codeclimate              | Planned                        |
+| codeclimate              | Not happening                  |
 |--------------------------+--------------------------------|
 | coffee                   | Not happening                  |
 |--------------------------+--------------------------------|
