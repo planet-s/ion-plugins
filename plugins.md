@@ -101,7 +101,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | copyfile                 | Not happening                  |
 |--------------------------+--------------------------------|
-| cp                       | Planned                        |
+| cp                       | Done, merged with rsync        |
 |--------------------------+--------------------------------|
 | cpanm                    | Not happening                  |
 |--------------------------+--------------------------------|
@@ -113,7 +113,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | dirhistory               | Not sure                       |
 |--------------------------+--------------------------------|
-| dirpersist               | Planned                        |
+| dirpersist               | Planned, missing features      |
 |--------------------------+--------------------------------|
 | django                   | Not happening                  |
 |--------------------------+--------------------------------|
