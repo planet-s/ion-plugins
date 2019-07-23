@@ -453,9 +453,9 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | svcat                    | Not happening                  |
 |--------------------------+--------------------------------|
-| svn                      | Planned                        |
+| svn                      | Merged with svn-fast-info      |
 |--------------------------+--------------------------------|
-| svn-fast-info            | Done                           |
+| svn-fast-info            | Merged with svn                |
 |--------------------------+--------------------------------|
 | swiftpm                  | Done                           |
 |--------------------------+--------------------------------|
