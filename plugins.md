@@ -93,7 +93,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | compleat                 | Not happening                  |
 |--------------------------+--------------------------------|
-| composer                 | Planned                        |
+| composer                 | Done                           |
 |--------------------------+--------------------------------|
 | copybuffer               | Not happening                  |
 |--------------------------+--------------------------------|
