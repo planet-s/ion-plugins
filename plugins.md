@@ -193,7 +193,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | gitfast                  | Not happening                  |
 |--------------------------+--------------------------------|
-| git-flow                 | Planned                        |
+| git-flow                 | Done                           |
 |--------------------------+--------------------------------|
 | git-flow-avh             | Not happening                  |
 |--------------------------+--------------------------------|
