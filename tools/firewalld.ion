@@ -1,0 +1,18 @@
+# This plugin adds some aliases and functions for FirewallD using the `firewalld-cmd` command
+
+alias fw = 'sudo firewall-cmd'
+alias fwp = 'sudo firewall-cmd --permanent'
+alias fwr = 'sudo firewall-cmd --reload'
+alias fwrp = 'sudo firewall-cmd --runtime-to-permanent'
+
+fn fwl
+  # converts output to zsh array ()
+  let zones = @split($(sudo firewall-cmd --get-active-zones | grep -v 'interfaces\|sources') '\n')
+
+  for i in @zones
+    sudo firewall-cmd --zone $i --list-all
+  end
+
+  echo 'Direct Rules:'
+  sudo firewall-cmd --direct --get-all-rules
+end

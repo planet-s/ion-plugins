@@ -165,7 +165,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | fedora                   | Not happening                  |
 |--------------------------+--------------------------------|
-| firewalld                | Planned                        |
+| firewalld                | Done                           |
 |--------------------------+--------------------------------|
 | forklift                 | Not sure                       |
 |--------------------------+--------------------------------|
