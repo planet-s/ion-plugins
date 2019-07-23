@@ -57,7 +57,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | cake                     | Not happening                  |
 |--------------------------+--------------------------------|
-| cakephp3                 | Planned                        |
+| cakephp3                 | Done                           |
 |--------------------------+--------------------------------|
 | capistrano               | Not happening                  |
 |--------------------------+--------------------------------|
