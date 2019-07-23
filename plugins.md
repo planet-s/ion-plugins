@@ -217,7 +217,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | golang                   | Planned                        |
 |--------------------------+--------------------------------|
-| gpg-agent                | Planned                        |
+| gpg-agent                | Done                           |
 |--------------------------+--------------------------------|
 | gradle                   | Not happening                  |
 |--------------------------+--------------------------------|
