@@ -309,7 +309,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | mvn                      | Planned                        |
 |--------------------------+--------------------------------|
-| mysql-macports           | Planned                        |
+| mysql-macports           | Done                           |
 |--------------------------+--------------------------------|
 | n98-magerun              | Not sure                       |
 |--------------------------+--------------------------------|
