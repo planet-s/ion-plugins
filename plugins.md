@@ -287,7 +287,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | lol                      | Low priority                   |
 |--------------------------+--------------------------------|
-| macports                 | Planned                        |
+| macports                 | Done                           |
 |--------------------------+--------------------------------|
 | magic-enter              | Not sure                       |
 |--------------------------+--------------------------------|
