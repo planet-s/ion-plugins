@@ -123,7 +123,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | docker                   | Not happening                  |
 |--------------------------+--------------------------------|
-| docker-compose           | Planned                        |
+| docker-compose           | Done                           |
 |--------------------------+--------------------------------|
 | docker-machine           | Planned                        |
 |--------------------------+--------------------------------|
