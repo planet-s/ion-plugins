@@ -1,0 +1,84 @@
+# Restart a rack app running under pow
+# http://pow.cx/
+#
+# Adds a kapow command that will restart an app
+#
+#   $ kapow myapp
+#
+# Changes:
+#
+# Defaults to the current application, and will walk up the tree to find
+# a config.ru file and restart the corresponding app
+#
+# Will Detect if a app does not exist in pow and print a (slightly) helpful
+# error message
+
+fn rack_root
+  let orgdir = $PWD
+  let basedir = $PWD
+
+  while not eq $basedir '/' && not test -e "$basedir/config.ru"
+    cd ".." ^> /dev/null
+    let basedir = $PWD
+  end
+
+  cd "$orgdir" ^>/dev/null
+  if eq $basedir "/"
+    return 1
+  else
+    echo $basedir
+  end
+end
+
+fn rack_root_detect
+  let basedir = $(rack_root)
+  basename $basedir | sed -E "s/.(com|net|org)//"
+end
+
+fn kapow vhost:str
+  if not test -n "$vhost"
+    let vhost = $(rack_root_detect)
+  end
+  if not test -h ~/.pow/$vhost
+    echo "pow: This domain isn’t set up yet. Symlink your application to $vhost first."
+    return 1
+  end
+
+  if not test -d ~/.pow/${vhost}/tmp
+    mkdir -p ~/.pow/$vhost/tmp
+  end
+  if touch ~/.pow/$vhost/tmp/restart.txt;
+    echo "pow: restarting $vhost.dev"
+  end
+end
+
+fn powit vhost:str
+  let basedir = $PWD
+  if not test -n "$vhost"
+    let vhost = $(rack_root_detect)
+  end
+  if not test -h ~/.pow/$vhost
+    echo "pow: Symlinking your app with pow. $vhost"
+    if not test -d ~/.pow/$vhost
+      ln -s $basedir ~/.pow/$vhost
+    end
+    return 1
+  end
+end
+
+fn powed
+  let basedir = $(rack_root)
+  find ~/.pow/ -type l -lname "*$basedir*" -exec basename {}'.dev' \;
+end
+
+# Restart pow process
+# taken from https://www.matthewratzloff.com
+fn repow
+  lsof | grep 20560 | awk '{print $2}' | xargs kill -9
+  launchctl unload ~/Library/LaunchAgents/cx.pow.powd.plist
+  launchctl load ~/Library/LaunchAgents/cx.pow.powd.plist
+  echo "restarted pow"
+end
+
+# View the standard out (puts) from any pow app
+alias kaput = 'tail -f ~/Library/Logs/Pow/apps/*'
