@@ -273,7 +273,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | kube-ps1                 | Planned                        |
 |--------------------------+--------------------------------|
-| laravel                  | Planned                        |
+| laravel                  | Done                           |
 |--------------------------+--------------------------------|
 | laravel4                 | Merged with laravel            |
 |--------------------------+--------------------------------|

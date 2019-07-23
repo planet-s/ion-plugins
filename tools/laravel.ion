@@ -1,0 +1,36 @@
+# This plugin adds aliases for Laravel [Artisan](https://laravel.com/docs/artisan) and [Bob](http://daylerees.github.io/laravel-bob/) command-line interfaces.
+# Depending on the version installed, laravel 4 and 5-specific commands will be added
+
+alias artisan='php artisan'
+alias bob='php artisan bob::build'
+
+# Development
+alias pas='php artisan serve'
+
+# Database
+alias pam='php artisan migrate'
+alias pamf='php artisan migrate:fresh'
+alias pamfs='php artisan migrate:fresh --seed'
+alias pamr='php artisan migrate:rollback'
+alias pads='php artisan db:seed'
+
+# Makers
+alias pamm='php artisan make:model'
+alias pamc='php artisan make:controller'
+alias pams='php artisan make:seeder'
+alias pamt='php artisan make:test'
+
+
+# Clears
+alias pacac='php artisan cache:clear'
+alias pacoc='php artisan config:clear'
+alias pavic='php artisan view:clear'
+alias paroc='php artisan route:clear'
+
+# Laravel 4 specific commands
+alias la4dump='php artisan dump-autoload'
+alias la4routes='php artisan routes'
+
+# Laravel 5 specific commands
+alias la5routes='php artisan route:list'
+alias la5vendor='php artisan vendor:publish'
