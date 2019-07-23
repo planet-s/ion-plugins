@@ -455,7 +455,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | svn                      | Planned                        |
 |--------------------------+--------------------------------|
-| svn-fast-info            | Planned                        |
+| svn-fast-info            | Done                           |
 |--------------------------+--------------------------------|
 | swiftpm                  | Done                           |
 |--------------------------+--------------------------------|
@@ -479,7 +479,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 |--------------------------+--------------------------------|
 | textmate                 | Merge with other editors       |
 |--------------------------+--------------------------------|
-| thefuck                  | Planned                        |
+| thefuck                  | Planned,  missing features     |
 |--------------------------+--------------------------------|
 | themes                   | Not happening                  |
 |--------------------------+--------------------------------|
