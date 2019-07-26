@@ -19,7 +19,7 @@ source ~/.config/ion/plugins/<plugin>/init.ion
 
 ## What's provided
 ### Plugins
-Use them by adding their identifiers to the `load` array parameter. A list of plugins is simply the folders that are included in the repo
+Use them by sourcing their files. A list of plugins can be found [here](http://redox-os.pages.redox-os.org/ion-plugins/).
 
 #### Adding your own
 Plugins are stored in a directory under ~/.config/ion/plugins with the following structure:
