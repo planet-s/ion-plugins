@@ -12,19 +12,9 @@ git clone https://gitlab.redox-os.org/redox-os/ion-plugins ~/.config/ion/plugins
 ```
 
 ### 2. Use it in your config (~/.config/ion/initrc)
-#### For now
 ```
-source ~/.config/ion/plugins/themes/<theme>/init.ion
 source ~/.config/ion/plugins/<plugin>/init.ion
 ...
-```
-
-#### Planned API
-```
-... rest of initrc
-source ~/.config/ion/plugins/init.ion
-load_theme robbyrussel
-load [ git yarn ... ]
 ```
 
 ## What's provided
@@ -35,15 +25,12 @@ Use them by adding their identifiers to the `load` array parameter. A list of pl
 Plugins are stored in a directory under ~/.config/ion/plugins with the following structure:
 ```
 plugins/
-  my-plugin/
-    - init.ion
-    - README.md
+  <section>/
+    - <plugin>.ion
   ...
 ```
-The init.ion is read at the shell lauch and should register its functions.
-
-### Themes
-Themes are stored under ~/.config/ion/plugins/themes. You can load the one you like with `load_theme <your theme>`
+The ion script is read at the shell launch and should register its functions.
+A comment describing the plugin should be placed at the begining of the file if you wish to send it upstream. It will be sourced for the pages documentation.
 
 ## Contributors
 Feel free to pick an issue and/or send patches for additional features.
