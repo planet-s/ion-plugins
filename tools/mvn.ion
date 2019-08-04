@@ -38,7 +38,7 @@ end
 alias mvn="mvn_or_mvnw"
 
 # Run mvn against the pom found in a project's root directory (assumes a git repo)
-alias mvn_ = 'mvn -f $(git rev-parse --show-toplevel ^>/dev/null || echo ".")/pom.xml'
+alias mvn! = 'mvn -f $(git rev-parse --show-toplevel ^>/dev/null || echo ".")/pom.xml'
 
 # aliases
 alias mvnag = 'mvn archetype:generate'
