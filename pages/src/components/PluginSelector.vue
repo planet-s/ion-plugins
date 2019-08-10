@@ -15,7 +15,11 @@ section.faq(ref="rootEl")
           div(:class="generateQuestionClasses(i)" @click="makeActive(i)")
             p.accordion__title-text(v-html="item['title']")
             .buttons
-              button.button--green(@click.stop="$emit('update', item)") Add
+              button.button--green(
+                v-if="value.indexOf(item) === -1"
+                @click.stop="$emit('update', item)"
+              ) Select
+              button.button--red(v-else @click.stop="$emit('update', item)") Remove
               button(:class="generateButtonClasses(i)")
           collapse-transition
             div.accordion__value(v-if="i === activeQuestionIndex")
@@ -31,7 +35,11 @@ section.faq(ref="rootEl")
                 code.block
                   span(v-for="description, name in item.funcs") fn {{ name }} -- {{ description }}
                     br
-              button.button--green(@click="$emit('update', item)") Add
+              button.button--green(
+                v-if="value.indexOf(item) === -1"
+                @click.stop="$emit('update', item)"
+              ) Select
+              button.button--red(v-else @click.stop="$emit('update', item)") Remove
 </template>
 
 <script>
@@ -40,9 +48,7 @@ import { CollapseTransition } from 'vue2-transitions';
 
 export default {
   name: 'VueFaqAccordion',
-  components: {
-    CollapseTransition,
-  },
+  components: { CollapseTransition },
   data() {
     return {
       activeTab: 0,
@@ -51,12 +57,11 @@ export default {
     };
   },
   props: {
-    /**
-       * Array of items
-       * Object style {questionProperty: string, answerProperty: string, tabName: string}
-       * You can change object keys names using other props (questionProperty, answerProperty, tabName)
-       */
     items: {
+      type: Array,
+      required: true,
+    },
+    value: {
       type: Array,
       required: true,
     },
@@ -103,7 +108,6 @@ export default {
       }, 300);
     },
     generateCategoryClasses(category) {
-      console.log(this.activeTab, category);
       return [
         'faq__nav-item',
         this.activeTab === category
@@ -234,13 +238,14 @@ export default {
     }
     &__toggle-button {
       position: relative;
-      width: 1em;
-      height: 1em;
+      width: 1.25em;
+      height: 1.25em;
       transition: all 0.3s;
       transform-origin: 50% 50%;
-      padding-left: 16px;
+      padding-left: 1.25em;
       margin-left: 2em;
       cursor: pointer;
+      vertical-align: middle;
 
       &::before,
       &::after {

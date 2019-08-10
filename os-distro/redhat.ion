@@ -1,0 +1,37 @@
+# This plugin adds useful aliases for common [Yum](http://yum.baseurl.org/) and `dnf` commands.
+#
+# `dnf` is the new package manager for RPM-based distributions, which
+# replaces `yum`.
+
+## Yum
+
+alias ys = 'yum search'                       # search package
+alias yp = 'yum info'                         # show package info
+alias yl = 'yum list'                         # list packages
+alias ygl = 'yum grouplist'                   # list package groups
+alias yli = 'yum list installed'              # print all installed packages
+alias ymc = 'yum makecache'                   # rebuilds the yum package list
+
+alias yu = 'sudo yum update'                  # upgrate packages
+alias yi = 'sudo yum install'                 # install package
+alias ygi = 'sudo yum groupinstall'           # install package group
+alias yr = 'sudo yum remove'                  # remove package
+alias ygr = 'sudo yum groupremove'            # remove pagage group
+alias yrl = 'sudo yum remove --remove-leaves' # remove package and leaves
+alias yc = 'sudo yum clean all'               # clean cache
+
+## DNF
+
+alias dnfl="dnf list"                       # List packages
+alias dnfli="dnf list installed"            # List installed packages
+alias dnfgl="dnf grouplist"                 # List package groups
+alias dnfmc="dnf makecache"                 # Generate metadata cache
+alias dnfp="dnf info"                       # Show package information
+alias dnfs="dnf search"                     # Search package
+
+alias dnfu="sudo dnf upgrade"               # Upgrade package
+alias dnfi="sudo dnf install"               # Install package
+alias dnfgi="sudo dnf groupinstall"         # Install package group
+alias dnfr="sudo dnf remove"                # Remove package
+alias dnfgr="sudo dnf groupremove"          # Remove package group
+alias dnfc="sudo dnf clean all"             # Clean cache

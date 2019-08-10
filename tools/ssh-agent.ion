@@ -7,21 +7,21 @@
 # To enable **agent forwarding support** add the following to your initrc file:
 #
 # ```
-# let ssh-agent-forwarding = 1
+# let ssh_agent_forwarding = 1
 # ```
 #
-# To **load identities** use the `ssh-agent-identities` variable, For example:
+# To **load identities** use the `ssh_agent_identities` variable, For example:
 #
 # ```
-# let ssh-agent-identities = [ id_rsa id_rsa2 id_github ]
+# let ssh_agent_identities = [ id_rsa id_rsa2 id_github ]
 # ```
 #
-# To **set the maximum lifetime of the identities**, use the `ssh-agent-lifetime` variable.
+# To **set the maximum lifetime of the identities**, use the `ssh_agent_lifetime` variable.
 # The lifetime may be specified in seconds or as described in sshd_config(5)
 # (see _TIME FORMATS_). If left unspecified, the default lifetime is forever.
 #
 # ```
-# let ssh-agent-lifetime 4h
+# let ssh_agent_lifetime 4h
 # ```
 #
 # ## Security
@@ -53,7 +53,7 @@ fn _start_agent
 end
 
 # test if agent-forwarding is enabled
-if exists -s ssh_agent_agent_forwarding && bool $ssh_agent_agent_forwarding && exists -s env::SSH_AUTH_SOCK
+if exists -s ssh_agent_forwarding && bool $ssh_agent_forwarding && exists -s env::SSH_AUTH_SOCK
 	# Add a nifty symlink for screen/tmux if agent forwarding
 	if not test -L $SSH_AUTH_SOCK
         ln -sf $SSH_AUTH_SOCK /tmp/ssh-agent-$USER-screen
@@ -79,17 +79,17 @@ if not test -d $HOME/.ssh
     return
 end
 
-let identities ?= []
+let ssh_agent_identities ?= []
 let loaded_sigs loaded_ids not_loaded = [] [] []
 
 # add default keys if no identities were set up via zstyle
 # this is to mimic the call to ssh-add with no identities
-if eq $len(@identities) 0
+if eq $len(@ssh_agent_identities) 0
     # key list found on `ssh-add` man page's DESCRIPTION section
     for id in id_rsa id_dsa id_ecdsa id_ed25519 identity
         # check if file exists
         if test -f "$HOME/.ssh/$id"
-            let identities ::= $id
+            let ssh_agent_identities ::= $id
         end
     end
 end
@@ -101,7 +101,7 @@ for line in @split($(ssh-add -l) '\n')
 end
 
 # add identities if not already loaded
-for id in @identities
+for id in @ssh_agent_identities
     # check for filename match, otherwise try for signature match
     if not contains $id @loaded_ids
         let sig = $(ssh-keygen -lf "$HOME/.ssh/$id" | awk '{print $2}')
@@ -114,8 +114,12 @@ end
 if not eq 0 $len(@not_loaded)
     ssh-add @not_loaded
 end
-if exists -s ssh_agent_agent_forwarding
-  drop ssh_agent_agent_forwarding
+
+if exists -s ssh_agent_identities
+  drop ssh_agent_identities
+end
+if exists -s ssh_agent_forwarding
+  drop ssh_agent_forwarding
 end
 if exists -s ssh_agent_lifetime
   drop ssh_agent_lifetime

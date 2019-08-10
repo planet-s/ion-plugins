@@ -1,0 +1,5 @@
+# Aliases for [CakePHP](https://cakephp.org/).
+
+alias c3='bin/cake'
+alias c3cache='bin/cake orm_cache clear'
+alias c3migrate='bin/cake migrations migrate'

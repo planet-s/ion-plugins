@@ -1,0 +1,25 @@
+# # Hanami Plugin #
+# This plugin adds convenient ways to work with [Hanami](https://hanamirb.org/) via console.
+# It's inspired by Rails plugin, so if you've used it, you'll feel like home.
+#
+# ## Usage ##
+#
+# For example, type `hc` into your console when you're within Hanami project directory to run
+# the application console. Have a look at available shortcuts below. You can read more about
+# these commands [on the official website](https://hanamirb.org/guides/command-line/applications/).
+
+alias hc='hanami console'
+alias hd='hanami destroy'
+alias hg='hanami generate'
+alias hgm='hanami generate migration'
+alias hs='hanami server'
+alias hsp='hanami server -p'
+alias hr='hanami routes'
+alias hdc='hanami db create'
+alias hdd='hanami db drop'
+alias hdp='hanami db prepare'
+alias hda='hanami db apply'
+alias hdv='hanami db version'
+alias hdrs='hdd && hdp'
+alias hdtp='HET hdp'
+alias hrg='hr | grep'

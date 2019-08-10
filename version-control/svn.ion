@@ -1,0 +1,56 @@
+# Faster alternative to the current SVN plugin implementation.
+#
+# Works with svn 1.6, 1.7, 1.8.
+# It's faster because his efficient use of svn (single svn call) which saves a lot on a huge codebase
+
+fn in_svn -- Check if the current dir is a svn repo
+  svn info &> /dev/null
+end
+
+fn svn_is_dirty info:str -- Check if the repo is dirty
+  let info ?= $(svn info ^> /dev/null)
+  let root = $(echo $info | sed -n 's/^Working Copy Root Path: //p')
+  svn status $root ^> /dev/null | /usr/bin/env grep -Eq '^\s*[ACDIM!?L]'
+end
+
+fn svn_repo_need_upgrade info:str -- Check if the repo needs upgrade
+  grep -q "E155036" <<< $or($repo $(svn info ^> /dev/null))
+  return $?
+end
+
+fn svn_current_branch_name info:str -- Get the current branch name
+  grep '^URL:' <<< $or($repo $(svn info ^> /dev/null)) | egrep -o '(tags|branches)/[^/]+|trunk'
+end
+
+fn svn_repo_root_name info:str -- Check the root repo name
+  grep '^Repository\ Root:' <<< $or($repo $(svn info ^> /dev/null)) | sed 's#.*/##'
+end
+
+fn svn_current_revision info:str -- Check the current revision
+  echo $or($repo $(svn info ^> /dev/null)) | sed -n 's/Revision: //p'
+end
+
+fn svn_status_info theme:hmap[str] -- get the svn status. Keys for theme: additions, deletions, modifications, replacements, untracked, dirty
+  let svn_status_string = ""
+  let svn_status = $(svn status ^> /dev/null)
+  if /usr/bin/env grep -E '^\s*A' &> /dev/null <<< $svn_status
+    let svn_status_string ::= $or(@theme['additions'] '+')
+  end
+  if /usr/bin/env grep -E '^\s*D' &> /dev/null <<< $svn_status
+    let svn_status_string ::= $or(@theme['deletions'] '✖')
+  end
+  if /usr/bin/env grep -E '^\s*M' &> /dev/null <<< $svn_status
+    let svn_status_string ::= $or(@theme['modifications'] '✎')
+  end
+  if /usr/bin/env grep -E '^\s*[R~]' &> /dev/null <<< $svn_status
+    let svn_status_string ::= $or(@theme['replacements'] '∿')
+  end
+  if /usr/bin/env grep -E '^\s*\?' &> /dev/null <<< $svn_status
+    let svn_status_string ::= $or(@theme['untracked'] '?')
+  end
+  if /usr/bin/env grep -E '^\s*[CI!L]' &> /dev/null <<< $svn_status
+    let svn_status_string ::= $or(@theme['dirty'] '!')
+  end
+  echo $svn_status_string
+end
+

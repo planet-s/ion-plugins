@@ -26,25 +26,33 @@ html {
   }
 }
 
-$button: #3b8070;
-.button--green {
+.button {
   display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
+  border-radius: .25em;
+  padding: 0 3em;
   color: #fff;
-  background-color: $button;
   cursor: pointer;
+  height: 3em;
+}
 
-  &:hover {
-    background: darken($button, 10%);
-  }
+@mixin button_color($color, $name) {
+  .button--#{$name} {
+    @extend .button;
+    background-color: $color;
 
-  &:active {
-    background: darken($button, 15%);
+    &:hover {
+      background: darken($color, 10%);
+    }
+
+    &:active {
+      background: darken($color, 15%);
+    }
   }
 }
+
+@include button_color(#3b8070, green);
+@include button_color(#BC5666, red);
+
 code {
     display: inline-block;
     border-radius: .5em;

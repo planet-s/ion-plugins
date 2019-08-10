@@ -1,0 +1,70 @@
+fn mvn_or_mvnw args:[str] -- Calls ./mvnw if found, otherwise execute the original mvn
+	if test -x ./mvnw
+		echo "executing mvnw instead of mvn"
+		./mvnw @args
+	else
+		/usr/bin/env mvn @args
+	end
+end
+
+# Wrapper function for Maven's mvn command. Based on https://gist.github.com/1027800
+fn mvn_color
+	let BOLD = $(echoti bold)
+	let TEXT_RED = $(echoti setaf 1)
+	let TEXT_GREEN = $(echoti setaf 2)
+	let TEXT_YELLOW = $(echoti setaf 3)
+	let TEXT_BLUE = $(echoti setaf 4)
+	let TEXT_WHITE = $(echoti setaf 7)
+	let RESET_FORMATTING = $(echoti sgr0)
+
+	# Filter mvn output using sed. Before filtering set the locale to C, so invalid characters won't break some sed implementations
+	export LANG = ''
+  let prev_CTYPE = $or(${env::LC_CTYPE} '')
+  export LC_CTYPE = C
+	mvn "$@" | sed \
+		-e "s/\(\[INFO\]\)\(.*\)/${TEXT_BLUE}${BOLD}\1${RESET_FORMATTING}\2/g" \
+		-e "s/\(\[DEBUG\]\)\(.*\)/${TEXT_WHITE}${BOLD}\1${RESET_FORMATTING}\2/g" \
+		-e "s/\(\[INFO\]\ BUILD SUCCESSFUL\)/${BOLD}${TEXT_GREEN}\1${RESET_FORMATTING}/g" \
+		-e "s/\(\[WARNING\]\)\(.*\)/${BOLD}${TEXT_YELLOW}\1${RESET_FORMATTING}\2/g" \
+		-e "s/\(\[ERROR\]\)\(.*\)/${BOLD}${TEXT_RED}\1${RESET_FORMATTING}\2/g" \
+		-e "s/Tests run: \([^,]*\), Failures: \([^,]*\), Errors: \([^,]*\), Skipped: \([^,]*\)/${BOLD}${TEXT_GREEN}Tests run: \1${RESET_FORMATTING}, Failures: ${BOLD}${TEXT_RED}\2${RESET_FORMATTING}, Errors: ${BOLD}${TEXT_RED}\3${RESET_FORMATTING}, Skipped: ${BOLD}${TEXT_YELLOW}\4${RESET_FORMATTING}/g"
+  export LC_CTYPE = $prev_CTYPE
+
+	# Make sure formatting is reset
+	echo -ne "${RESET_FORMATTING}"
+end
+
+# either use orignal mvn or the mvn wrapper
+alias mvn="mvn_or_mvnw"
+
+# Run mvn against the pom found in a project's root directory (assumes a git repo)
+alias mvn! = 'mvn -f $(git rev-parse --show-toplevel ^>/dev/null || echo ".")/pom.xml'
+
+# aliases
+alias mvnag = 'mvn archetype:generate'
+alias mvnboot = 'mvn spring-boot:run'
+alias mvnc = 'mvn clean'
+alias mvncd = 'mvn clean deploy'
+alias mvnce = 'mvn clean eclipse:clean eclipse:eclipse'
+alias mvnci = 'mvn clean install'
+alias mvncie = 'mvn clean install eclipse:eclipse'
+alias mvncini = 'mvn clean initialize'
+alias mvncist = 'mvn clean install -DskipTests'
+alias mvncisto = 'mvn clean install -DskipTests --offline'
+alias mvncom = 'mvn compile'
+alias mvncp = 'mvn clean package'
+alias mvnct = 'mvn clean test'
+alias mvncv = 'mvn clean verify'
+alias mvncvst = 'mvn clean verify -DskipTests'
+alias mvnd = 'mvn deploy'
+alias mvndocs = 'mvn dependency:resolve -Dclassifier=javadoc'
+alias mvndt = 'mvn dependency:tree'
+alias mvne = 'mvn eclipse:eclipse'
+alias mvnjetty = 'mvn jetty:run'
+alias mvnp = 'mvn package'
+alias mvns = 'mvn site'
+alias mvnsrc = 'mvn dependency:sources'
+alias mvnt = 'mvn test'
+alias mvntc = 'mvn tomcat:run'
+alias mvntc7 = 'mvn tomcat7:run'
+alias mvn-updates = 'mvn versions:display-dependency-updates'

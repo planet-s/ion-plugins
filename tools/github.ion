@@ -1,0 +1,41 @@
+# Set up hub wrapper for git, if it is available; https://github.com/github/hub
+if which hub &> /dev/null
+  alias git = 'hub'
+end
+
+fn empty_gh repo:str -- Creates a new repo with a blank README.md in it and pushes it up to GitHub.
+  mkdir $repo
+  touch "$repo/README.md"
+  new_gh $repo
+end
+
+fn new_gh repo:str -- Add all non-hidden files to git
+  set -e
+  cd $repo
+
+  git init
+  # add all non-dot files
+  print '.*'"\n"'*~' >> .gitignore
+  git add [^.]*
+  git add -f .gitignore
+  git commit -m 'Initial commit.'
+  hub create
+  git push -u origin master
+end
+
+fn exist_gh repo:str -- Add an existing repo to github
+  set -e
+  cd $repo
+
+  hub create
+  git push -u origin master
+end
+
+# Shorten GitHub url, example:
+#   https://github.com/nvogel/dotzsh    >   https://git.io/8nU25w
+# source: https://github.com/nvogel/dotzsh
+# documentation: https://github.com/blog/985-git-io-github-url-shortener
+fn git_io url:str -- Generate a short url for a github url
+  curl -i -s https://git.io -F "url=$url" | grep "Location" | cut -f 2 -d " "
+end
+

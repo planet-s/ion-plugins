@@ -1,0 +1,30 @@
+# Based upon the work of  Daniel Gomes (me@danielcsgomes.com)
+# Adds a few useful aliases as well as composer's global binaries' paths to $PATH
+
+alias c = 'composer'
+alias csu = 'composer self-update'
+alias cu = 'composer update'
+alias cr = 'composer require'
+alias crm = 'composer remove'
+alias ci = 'composer install'
+alias ccp = 'composer create-project'
+alias cdu = 'composer dump-autoload'
+alias cdo = 'composer dump-autoload --optimize-autoloader'
+alias cgu = 'composer global update'
+alias cgr = 'composer global require'
+alias cgrm = 'composer global remove'
+
+# install composer in the current directory
+alias cget = 'curl -s https://getcomposer.org/installer | php'
+
+# Add Composer's global binaries to PATH, using Composer if available.
+if which composer &> /dev/null
+  export PATH = $PATH:$(composer global config bin-dir --absolute ^>/dev/null)
+else
+  if test -d $HOME/.composer/vendor/bin
+    export PATH=$PATH:$HOME/.composer/vendor/bin
+  end
+  if test -d $HOME/.config/composer/vendor/bin
+    export PATH=$PATH:$HOME/.config/composer/vendor/bin
+  end
+end
