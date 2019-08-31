@@ -164,6 +164,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 | mysql-macports           | Done                           |
 | n98-magerun              | Not sure                       |
 | nanoc                    | Not sure                       |
+| nim                      | Done                           |
 | ng                       | Not happening                  |
 | nmap                     | Done                           |
 | node                     | Not sure                       |
