@@ -1,0 +1,112 @@
+fn battery_pct
+	match $(uname -s):
+	case Darwin:
+		let smart_battery_status = $(ioreg -rc AppleSmartBattery)
+		let max_capacity = $(echo $smart_battery_status | grep '^.*"MaxCapacity"\ =\ ' | sed -e 's/^.*"MaxCapacity"\ =\ //')
+		let current_capacity = $(echo $smart_battery_status | grep '^.*"CurrentCapacity"\ =\ ' | sed -e 's/^.*CurrentCapacity"\ =\ //')
+
+		let i = $(( current_capacity / max_capacity * 100 ))
+		let i //= 1 # workaround: no round function
+		echo $i
+	case Linux:
+		echo $(acpi ^>/dev/null | cut -f2 -d ',' | tr -cd '[:digit:]')
+	case _:
+		echo "Unsupported OS"
+		false
+	end
+end
+
+fn battery_is_charging
+	match $(uname -s):
+	case Darwin:
+		contains $(ioreg -rc AppleSmartBattery) '"ExternalConnected" = Yes'
+	case Linux:
+		not contains $(acpi ^>/dev/null) "Discharging"
+	case _:
+		echo "Unsupported OS"
+		false
+	end
+end
+
+fn battery_pct_remaining
+	if battery_is_charging
+		echo "External Power"
+	else
+		battery_pct
+	end
+end
+
+fn battery_time_remaining
+	if battery_is_charging
+		echo "∞"
+	else
+		match $(uname -s):
+		case Darwin:
+			let smart_battery_status = $(ioreg -rc AppleSmartBattery)
+			let timeremaining=$(echo $smart_battery_status | grep '^.*"AvgTimeToEmpty"\ =\ ' | sed -e 's/^.*"AvgTimeToEmpty"\ =\ //')
+			if test $timeremaining -gt 1440
+				echo "::"
+			else
+				let x = $timeremaining
+				let x //= 60
+				echo "~$x:$((timeremaining % 60))"
+			end
+		case Linux:	
+			echo $(acpi ^>/dev/null | cut -f3 -d ',')
+		case _:
+			echo "Unsupported OS"
+			false
+		end
+	end
+end
+
+fn battery_pct_prompt
+	if not battery_is_charging
+		let b = $(battery_pct)
+		if test $b -gt 50
+			echo -n ${c::green}
+		else if test $b -gt 20
+			echo -n  ${c::yellow}
+		else
+			echo -n ${c::red}
+		end
+		echo -n "$b${c::reset}"
+	else
+		echo -n "∞"
+	end
+end
+
+
+fn battery_level_gauge
+	let gauge_slots = $or($BATTERY_GAUGE_SLOTS 10)
+	let green_threshold= $or($BATTERY_GREEN_THRESHOLD 60)
+	let yellow_threshold= $or($BATTERY_YELLOW_THRESHOLD 40)
+	let color_green= $or($BATTERY_COLOR_GREEN ${c::green})
+	let color_yellow= $or($BATTERY_COLOR_YELLOW ${c::yellow})
+	let color_red= $or($BATTERY_COLOR_RED ${c::red})
+	let battery_prefix= $or($BATTERY_GAUGE_PREFIX '[')
+	let battery_suffix= $or($BATTERY_GAUGE_SUFFIX ']')
+	let filled_symbol= $or($BATTERY_GAUGE_FILLED_SYMBOL '▶')
+	let empty_symbol= $or($BATTERY_GAUGE_EMPTY_SYMBOL '▷')
+	let charging_symbol= $or($BATTERY_CHARGING_SYMBOL '⚡')
+
+	let battery_pct=$(battery_pct)
+	let battery_slots = $battery_pct
+	let battery_slots *= $gauge_slots
+	let battery_slots //= 100
+	let battery_slots_inverted = $(( gauge_slots - battery_slots ))
+
+	let color = $color_red
+
+	if test $battery_pct -gt $green_threshold
+		let color = $color_green
+	else if test $battery_pct -gt $yellow_threshold
+		let color = $color_yellow
+	end
+
+	if battery_is_charging
+		echo -n "$charging_symbol"
+	end
+
+	echo "$battery_prefix$color$repeat($filled_symbol $battery_slots)$repeat($empty_symbol $battery_slots_inverted)${c::reset}$battery_suffix"
+end
