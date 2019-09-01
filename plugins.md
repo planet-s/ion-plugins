@@ -24,7 +24,7 @@ Since Ion does not support autocompletion via plugins, a lot of oh-my-zsh plugin
 | autojump                 | Not happening                  |
 | autopep8                 | Not happening                  |
 | aws                      | Done                           |
-| battery                  | Planned                        |
+| battery                  | Done                           |
 | bbedit                   | Merging with other editors     |
 | bgnotify                 | Planned, missing features      |
 | boot2docker              | Not happening                  |
