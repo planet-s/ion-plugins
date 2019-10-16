@@ -1,44 +1,31 @@
-# Install dependencies globally
-alias npmg = 'npm i -g '
+# This plugin adds some aliases for common commands of the [Node package manager](https://docs.npmjs.com/cli-documentation/),
 
-# npm package names are lowercase
-# Thus, we've used camelCase for the following aliases:
-
-# Install and save to dependencies in your package.json
-# npms is used by https://www.npmjs.com/package/npms
-alias npmS = 'npm i -S '
-
-# Install and save to dev-dependencies in your package.json
-# npmd is used by https://github.com/dominictarr/npmd
-alias npmD = 'npm i -D '
-
-# Execute command from node_modules folder based on current directory
-# i.e npmE gulp
-alias npmE='PATH = '$(npm bin)":"$PATH''
-
-# Check which npm modules are outdated
-alias npmO = 'npm outdated'
-
-# Check package versions
-alias npmV = 'npm -v'
-
-# List packages
-alias npmL = 'npm list'
-
-# List top-level installed packages
-alias npmL0 = 'npm ls --depth=0'
-
-# Run npm start
-alias npmst = 'npm start'
-
-# Run npm test
-alias npmt = 'npm test'
-
-# Run npm scripts
-alias npmR = 'npm run'
-
-# Run npm publish 
-alias npmP = 'npm publish'
-
-# Run npm init
-alias npmI = 'npm init'
+alias n = 'npm'
+alias nv = 'npm --version'
+alias ni = 'npm init'
+alias nin = 'npm install'
+alias ning = 'npm install -g'
+alias nins = 'npm install -S'
+alias nind = 'npm i -D'
+alias nup = 'npm update'
+alias nupg = 'npm update -g'
+alias nupn = 'npm install -g npm'
+alias nout = 'npm outdated'
+alias noutg = 'npm outdated -g'
+alias nsea = 'npm search'
+alias nr = 'npm run'
+alias nl = 'npm ls'
+alias nlg = 'npm ls -g'
+alias nl0 = 'npm ls --depth=0'
+alias nl0g = 'npm ls -g --depth=0'
+alias ns = 'npm start'
+alias npub = 'npm publish'
+alias nt = 'npm test'
+alias nh = 'npm help'
+alias nd = 'npm docs'
+alias nb = 'npm bugs'
+alias nrep= 'npm repo'
+alias nvi = 'npm view'
+alias np = 'npm prune'
+alias nu = 'npm uninstall'
+alias nug = 'npm uninstall -g'
